@@ -1,0 +1,15 @@
+sample/client/GameArea.class
+sample/client/MoveRect.class
+sample/server/ServerInitializer.class
+sample/server/Server.class
+sample/client/ChatClient.class
+sample/client/GameArea$1.class
+sample/client/Client.class
+sample/client/GameArea$Figure.class
+sample/client/GameArea$MyMouseAdapter.class
+sample/client/ChatClientInitializer.class
+sample/client/MoveRect$MyMouseAdapter.class
+sample/client/MoveRect$1.class
+sample/server/ServerHandler.class
+sample/client/GameArea$RectType.class
+sample/client/ChatClientHandler.class
