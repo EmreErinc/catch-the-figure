@@ -8,12 +8,14 @@ import io.netty.channel.group.ChannelGroup;
 import io.netty.channel.group.DefaultChannelGroup;
 import io.netty.util.concurrent.DefaultEventExecutor;
 import sample.client.Client;
+import sample.client.RectType;
 
 import java.net.SocketAddress;
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Pattern;
+import java.util.stream.Stream;
 
 import static jdk.nashorn.internal.runtime.regexp.joni.Config.log;
 
@@ -47,6 +49,7 @@ public class ServerHandler extends SimpleChannelInboundHandler<String> implement
     for (Channel channel : CHANNELS) {
       channel.writeAndFlush("[SYS] - <<" + getUserByRemoteAddress(incoming.remoteAddress()) + ">> has left\n");
     }
+    removeUser(incoming);
     CHANNELS.remove(ctx.channel());
     log.print("[SYS] - <<" + getUserByRemoteAddress(incoming.remoteAddress()) + ">> has left from <<" + incoming.remoteAddress() + ">>\n");
   }
@@ -68,6 +71,8 @@ public class ServerHandler extends SimpleChannelInboundHandler<String> implement
           sendMessage(incoming, text);
         }
         break;
+      case "CMD":
+        sendClickInfo(incoming, parseRectType(text), parseClickTime(text));
       default:
         break;
     }
@@ -87,6 +92,26 @@ public class ServerHandler extends SimpleChannelInboundHandler<String> implement
     }
   }
 
+  private void sendClickInfo(Channel incoming, RectType rectType, long clickTime) {
+    for (Channel channel : CHANNELS){
+      if (channel.equals(incoming)) {
+        //TODO coordinate detayı da verilebilir
+        channel.writeAndFlush("[CMD] - <<YOU>> Clicked : " + rectType + " at : " + clickTime + "\n");
+      } else {
+        channel.writeAndFlush("[CMD] - <<" + getUserByRemoteAddress(incoming.remoteAddress()) + ">> Clicked : " + rectType + " at : " + clickTime + "\n");
+      }
+    }
+    log.print("[LOG] - <<" + incoming.remoteAddress() + ">> | <<" + getUserByRemoteAddress(incoming.remoteAddress()) + ">> - Clicked : " + rectType + " at : " + clickTime +"\n");
+  }
+
+  private Long parseClickTime(String text){
+    return Long.valueOf(text.split(Pattern.quote("<<"))[1].split(Pattern.quote(">>"))[0]);
+  }
+
+  private RectType parseRectType(String text){
+    return RectType.valueOf(text.split(Pattern.quote("<<"))[2].split(Pattern.quote(">>"))[0]);
+  }
+
   private void addUser(Channel incoming, String text) {
     if (clients.stream().noneMatch(client -> client.getChannel().equals(incoming))) {
       String nick = parseNick(text);
@@ -96,6 +121,13 @@ public class ServerHandler extends SimpleChannelInboundHandler<String> implement
       client.setNick(nick);
       client.setChannel(incoming);
       clients.add(client);
+    }
+  }
+
+  private void removeUser(Channel incoming){
+    if (clients.stream().anyMatch(client -> client.getChannel().equals(incoming))) {
+      Client removedUser = clients.stream().filter(client -> client.getChannel().equals(incoming)).findFirst().get();
+      clients.remove(removedUser);
     }
   }
 

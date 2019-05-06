@@ -12,6 +12,8 @@ import java.util.regex.Pattern;
  */
 public class ChatClientHandler extends SimpleChannelInboundHandler<String> {
 
+  String message = "";
+
   @Override
   protected void channelRead0(ChannelHandlerContext ctx, String message) throws Exception {
     /*if (message.contains("Server Time")) {
@@ -20,6 +22,7 @@ public class ChatClientHandler extends SimpleChannelInboundHandler<String> {
       System.out.println(Instant.now().toString() + " -------------- " + time);
     }*/
 
+    this.message = message;
     System.out.println(message);
   }
 }
