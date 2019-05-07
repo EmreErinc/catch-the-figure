@@ -9,13 +9,14 @@ import io.netty.channel.group.DefaultChannelGroup;
 import io.netty.util.concurrent.DefaultEventExecutor;
 import sample.client.Client;
 import sample.client.RectType;
+import sample.client.Utils;
 
+import java.awt.*;
 import java.net.SocketAddress;
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Pattern;
-import java.util.stream.Stream;
 
 import static jdk.nashorn.internal.runtime.regexp.joni.Config.log;
 
@@ -36,6 +37,8 @@ public class ServerHandler extends SimpleChannelInboundHandler<String> implement
     incoming.writeAndFlush("[SYS] - " + "WELCOME TO LOBBY!\r\n");
     incoming.writeAndFlush("[SYS] - " + "YOUR INFO : " + incoming.remoteAddress() + "\r\n");
     incoming.writeAndFlush("[SYS] - Server Time : " + Instant.now() + "\r\n");
+    String role = (clients.size() == 0) ? "<<HOST>>" : "<<SUBSCRIBER>>";
+    incoming.writeAndFlush("[SYS] - Client Role : " + role + "\r\n");
     for (Channel channel : CHANNELS) {
       channel.writeAndFlush("[SYS] - A new user has joined\n");
     }
@@ -72,14 +75,29 @@ public class ServerHandler extends SimpleChannelInboundHandler<String> implement
         }
         break;
       case "CMD":
-        sendClickInfo(incoming, parseRectType(text), parseClickTime(text));
+        if (text.contains("Created")){
+          createShape(incoming, Utils.parseRectType(text), Utils.parseColorStr(text), Utils.parseBoundsStr(text));
+        }else {
+          sendClickInfo(incoming, Utils.parseRectType(text), Utils.parseClickTime(text));
+        }
       default:
         break;
     }
   }
 
+  private void createShape(Channel incoming, RectType type, String color, String bounds) {
+    for (Channel channel : CHANNELS){
+      if (channel.equals(incoming)) {
+        channel.writeAndFlush("[CMD] - <<YOU>> Created | Type : <<" + type + ">> | Color : <<" + color + ">> | Bounds : <<" + bounds + ">> \r\n");
+      }else {
+        channel.writeAndFlush("[CMD] - <<" + getUserByRemoteAddress(incoming.remoteAddress()) + ">> Created | Type : <<" + type + ">> | Color : <<" + color + ">> | Bounds : <<" + bounds + ">> \r\n");
+      }
+    }
+    log.print("[LOG] - <<" + incoming.remoteAddress() + ">> | <<" + getUserByRemoteAddress(incoming.remoteAddress()) + ">> - Created | Type : <<" + type + ">> | Color : <<" + color + ">> | Bounds : <<" + bounds + ">> \r\n");
+  }
+
   private void sendMessage(Channel incoming, String text) {
-    String message = parseMessage(text);
+    String message = Utils.parseMessage(text);
     if (!message.equals("EMPTY_MESSAGE")) {
       for (Channel channel : CHANNELS) {
         if (channel.equals(incoming)) {
@@ -104,17 +122,9 @@ public class ServerHandler extends SimpleChannelInboundHandler<String> implement
     log.print("[LOG] - <<" + incoming.remoteAddress() + ">> | <<" + getUserByRemoteAddress(incoming.remoteAddress()) + ">> - Clicked : " + rectType + " at : " + clickTime +"\n");
   }
 
-  private Long parseClickTime(String text){
-    return Long.valueOf(text.split(Pattern.quote("<<"))[1].split(Pattern.quote(">>"))[0]);
-  }
-
-  private RectType parseRectType(String text){
-    return RectType.valueOf(text.split(Pattern.quote("<<"))[2].split(Pattern.quote(">>"))[0]);
-  }
-
   private void addUser(Channel incoming, String text) {
     if (clients.stream().noneMatch(client -> client.getChannel().equals(incoming))) {
-      String nick = parseNick(text);
+      String nick = Utils.parseNick(text);
 
       Client client = new Client();
       client.setId(Instant.now().getEpochSecond());
@@ -152,16 +162,6 @@ public class ServerHandler extends SimpleChannelInboundHandler<String> implement
     return users.toString();
   }
 
-  private String parseMessage(String text) {
-    if (text.contains("[MSG]")) {
-      return text.split(Pattern.quote("[MSG]"))[1].split(Pattern.quote("\r\n"))[0];
-    }
-    return "EMPTY_MESSAGE";
-  }
-
-  private String parseNick(String text) {
-    return text.split(Pattern.quote("[USR]"))[1].split(Pattern.quote("\r\n"))[0];
-  }
 
   private String getUserByRemoteAddress(SocketAddress socketAddress) {
     for (Client client : clients) {
