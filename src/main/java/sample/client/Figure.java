@@ -9,4 +9,5 @@ public class Figure {
   Shape shape;
   Color color;
   RectType type;
+  Long createdAt;
 }

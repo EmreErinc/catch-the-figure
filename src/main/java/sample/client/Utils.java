@@ -8,30 +8,46 @@ import java.util.regex.Pattern;
  * Created by emre on 07.05.2019
  */
 public class Utils {
-  public static RectType parseRectType(String text){
+  public static RectType parseRectType(String text) {
     return RectType.valueOf(text.split(Pattern.quote("<<"))[2].split(Pattern.quote(">>"))[0]);
   }
 
-  public static Color parseColor(String text){
+  public static RectType parseRectTypeForServer(String text) {
+    return RectType.valueOf(text.split(Pattern.quote("<<"))[1].split(Pattern.quote(">>"))[0]);
+  }
+
+  public static Color parseColor(String text) {
     String colorRGB = text.split(Pattern.quote("<<"))[3].split(Pattern.quote(">>"))[0];
 
     int r = Integer.valueOf(colorRGB.split(Pattern.quote("="))[1].split(Pattern.quote(","))[0]);
     int g = Integer.valueOf(colorRGB.split(Pattern.quote("="))[2].split(Pattern.quote(","))[0]);
     int b = Integer.valueOf(colorRGB.split(Pattern.quote("="))[3].split(Pattern.quote("]"))[0]);
-    return new Color(r,g,b);
+    return new Color(r, g, b);
   }
 
-  public static Polygon parseTriangle(String text){
+  public static String parseFigureCreatedAtForRemoteCreation(String text) {
+    return text.split(Pattern.quote("<<"))[5].split(Pattern.quote(">>"))[0];
+  }
+
+  public static String parseFigureCreatedAt(String text) {
+    return text.split(Pattern.quote("<<"))[4].split(Pattern.quote(">>"))[0];
+  }
+
+  public static String parseFigureCreatedAtOnClick(String text) {
+    return text.split(Pattern.quote("<<"))[3].split(Pattern.quote(">>"))[0];
+  }
+
+  public static Polygon parseTriangle(String text) {
     String bounds = text.split(Pattern.quote("<<"))[4].split(Pattern.quote(">>"))[0];
 
     Polygon triangle = new Polygon();
-    triangle.xpoints = parsePoints(bounds.split(Pattern.quote("|"))[0].split(Pattern.quote("<<"))[1]);
+    triangle.xpoints = parsePoints(bounds.split(Pattern.quote("|"))[0].split(Pattern.quote("<<"))[0]);
     triangle.ypoints = parsePoints(bounds.split(Pattern.quote("|"))[1]);
     triangle.npoints = Integer.valueOf(bounds.split(Pattern.quote("|"))[2].split(Pattern.quote(">>"))[0]);
     return triangle;
   }
 
-  public static Shape parseCircle(String message){
+  public static Shape parseCircle(String message) {
     Ellipse2D.Double circle = new Ellipse2D.Double();
     circle.x = Utils.parseBounds(message).x;
     circle.y = Utils.parseBounds(message).y;
@@ -40,7 +56,7 @@ public class Utils {
     return circle;
   }
 
-  public static Shape parseSquare(String message){
+  public static Shape parseSquare(String message) {
     Rectangle square = new Rectangle();
     square.x = Utils.parseBounds(message).x;
     square.y = Utils.parseBounds(message).y;
@@ -49,16 +65,16 @@ public class Utils {
     return square;
   }
 
-  public static int[] parsePoints(String pointsString){
+  public static int[] parsePoints(String pointsString) {
     int[] result = new int[3];
 
     result[0] = Integer.valueOf(pointsString.split(Pattern.quote(","))[0].split(Pattern.quote("["))[1]);
-    result[1] = Integer.valueOf(pointsString.split(Pattern.quote(","))[1]);
-    result[2] = Integer.valueOf(pointsString.split(Pattern.quote(","))[2]);
+    result[1] = Integer.valueOf(pointsString.split(Pattern.quote(", "))[1]);
+    result[2] = Integer.valueOf(pointsString.split(Pattern.quote(", "))[2]);
     return result;
   }
 
-  public static ShapeBound parseBounds(String text){
+  public static ShapeBound parseBounds(String text) {
     String bounds = text.split(Pattern.quote("<<"))[4].split(Pattern.quote(">>"))[0];
 
     ShapeBound shapeBound = new ShapeBound();
@@ -81,15 +97,15 @@ public class Utils {
     return text.split(Pattern.quote("[USR]"))[1].split(Pattern.quote("\r\n"))[0];
   }
 
-  public static Long parseClickTime(String text){
+  public static Long parseClickTime(String text) {
     return Long.valueOf(text.split(Pattern.quote("<<"))[2].split(Pattern.quote(">>"))[0]);
   }
 
-  public static String parseColorStr(String text){
+  public static String parseColorStr(String text) {
     return text.split(Pattern.quote("<<"))[2].split(Pattern.quote(">>"))[0];
   }
 
-  public static String parseBoundsStr(String text){
+  public static String parseBoundsStr(String text) {
     return text.split(Pattern.quote("<<"))[3].split(Pattern.quote(">>"))[0];
   }
 

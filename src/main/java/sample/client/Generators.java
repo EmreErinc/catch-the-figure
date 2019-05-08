@@ -2,6 +2,7 @@ package sample.client;
 
 import java.awt.*;
 import java.awt.geom.Ellipse2D;
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -14,26 +15,12 @@ public class Generators {
   //private static Polygon generateTriangle() {
   public static Shape generateTriangle(int width, int height) {
     Polygon triangle = new Polygon();
-    int base = generateNumber(40, 80);
-
-    boolean check = true;
-    //TODO fix it
-
     triangle.xpoints[0] = generateNumber(1, width);
     triangle.ypoints[0] = generateNumber(1, height);
 
     for (int i = 1; i < 3; i++) {
       triangle.xpoints[i] = generateNumber(triangle.xpoints[i - 1], width);
       triangle.ypoints[i] = generateNumber(triangle.ypoints[i - 1], height);
-
-      /*while(check){
-        triangle.xpoints[i] = generateNumber(triangle.xpoints[i - 1], width);
-        triangle.ypoints[i] = generateNumber(triangle.ypoints[i - 1], height);
-
-        if (triangle.xpoints[i] - triangle.xpoints[i-1] < base || triangle.ypoints[i] - triangle.ypoints[i-1] < base){
-          check = false;
-        }
-      }*/
     }
 
     triangle.npoints = 3;
@@ -64,9 +51,9 @@ public class Generators {
     return square;
   }
 
-  public static Integer generatePoint(){
+  public static Integer generatePoint() {
     Random random = new Random();
-    int point = random.nextInt(30);
+    int point = random.nextInt(10);
     return (random.nextInt(2) == 1) ? (0 - point) : point;
   }
 
@@ -99,6 +86,7 @@ public class Generators {
         figure.shape = Generators.generateTriangle(width, height);
         break;
     }
+    figure.createdAt = Instant.now().toEpochMilli();
 
     return figure;
   }

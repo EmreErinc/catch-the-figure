@@ -20,7 +20,7 @@ import java.util.Vector;
  * Created by emre on 29.04.2019
  */
 public class ClientArea extends JFrame {
-  private static Vector<Figure> figures = new Vector<>();
+  public static Vector<Figure> figures = new Vector<>();
 
   private JLabel lblConnect;
   private JButton btnConnect;
@@ -28,19 +28,23 @@ public class ClientArea extends JFrame {
   private JButton btnSendMsg;
   private JTextField txtNick;
   private JTextField txtMsg;
-  private static JTextArea txtMsgArea;
+  public static JTextArea txtMsgArea;
   private JScrollPane scrollMsgArea;
-  private static JButton btnStartGame;
-  private static JLabel lblSizeX;
-  private static JTextField txtSizeX;
-  private static JLabel lblSizeY;
-  private static JTextField txtSizeY;
-  private static JLabel lblInterval;
-  private static JTextField txtInterval;
-  private static JLabel lblShapeLimit;
-  private static JTextField txtShapeLimit;
+  public static JButton btnStartGame;
+  public static JLabel lblSizeX;
+  public static JTextField txtSizeX;
+  public static JLabel lblSizeY;
+  public static JTextField txtSizeY;
+  public static JLabel lblInterval;
+  public static JTextField txtInterval;
+  public static JLabel lblShapeLimit;
+  public static JTextField txtShapeLimit;
+  private JLabel lblCirclePoint;
+  private JLabel lblTrianglePoint;
+  private JLabel lblSquarePoint;
+  private JLabel lblTotalPoints;
 
-  private static GameArea gameArea;
+  public static GameArea gameArea;
   private int windowWidth = 700;
   private int windowHeight = 700;
   private int[] pointsArray = new int[3];
@@ -55,7 +59,6 @@ public class ClientArea extends JFrame {
   private Bootstrap bootstrap;
 
   private boolean generate = false;
-  static boolean dedicated = false;
 
   public ClientArea() {
     initComponents();
@@ -79,12 +82,14 @@ public class ClientArea extends JFrame {
     txtMsg.setText("");
     btnSendMsg = new JButton("Send Message");
     btnSendMsg.addActionListener(this::btnSendMsgActionPerformed);
+    btnSendMsg.setVisible(false);
 
     txtMsgArea = new JTextArea();
     txtMsgArea.setColumns(15);
     txtMsgArea.setRows(25);
-    scrollMsgArea = new JScrollPane();
-    scrollMsgArea.setViewportView(txtMsgArea);
+    txtMsgArea.setEditable(false);
+    txtMsgArea.setWrapStyleWord(true);
+    scrollMsgArea = new JScrollPane(txtMsgArea);
 
     lblSizeX = new JLabel("Width");
     txtSizeX = new JTextField("700");
@@ -103,12 +108,19 @@ public class ClientArea extends JFrame {
     btnStartGame.addActionListener(this::btnStartGameActionPerformed);
     btnStartGame.setVisible(false);
 
+    lblCirclePoint = new JLabel();
+    lblCirclePoint.setVisible(false);
+    lblTrianglePoint = new JLabel();
+    lblTrianglePoint.setVisible(false);
+    lblSquarePoint = new JLabel();
+    lblSquarePoint.setVisible(false);
+    lblTotalPoints = new JLabel();
+    lblTotalPoints.setVisible(false);
+
     switchOptions(false);
 
     gameArea = new GameArea();
     gameArea.setVisible(false);
-    //gameArea.setVisible(true);
-    //gameArea.setPreferredSize(new Dimension(windowWidth, windowHeight));
 
     setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
     setPreferredSize(new Dimension(windowWidth, windowHeight));
@@ -150,7 +162,8 @@ public class ClientArea extends JFrame {
     constraints.gridx = 0;
     constraints.gridy = 2;
     constraints.ipadx = 300;
-    add(txtMsgArea, constraints);
+    //add(txtMsgArea, constraints);
+    add(scrollMsgArea, constraints);
 
     constraints.gridwidth = 2;
     constraints.gridx = 0;
@@ -195,117 +208,23 @@ public class ClientArea extends JFrame {
     constraints.gridy = 2;
     add(gameArea, constraints);
 
-//    GroupLayout groupLayout = new GroupLayout(getContentPane());
-//    getContentPane().setLayout(groupLayout);
-//
-//    groupLayout.setAutoCreateGaps(true);
-//    groupLayout.setAutoCreateContainerGaps(true);
-//
-//    groupLayout.setHorizontalGroup(
-//        groupLayout.createParallelGroup(LEADING)
-//            .addGroup(groupLayout.createParallelGroup(LEADING)
-//                .addGroup(
-//                    groupLayout.createParallelGroup(LEADING)
-//                        .addGroup(groupLayout.createParallelGroup(LEADING)
-//                            .addComponent(lblConnect)
-//                            .addComponent(lblSendMsg)
-//                        )
-//                        .addGroup(groupLayout.createParallelGroup(LEADING)
-//                            .addComponent(txtNick)
-//                            .addComponent(txtMsg)
-//                        )
-//                        .addGroup(groupLayout.createParallelGroup(LEADING)
-//                            .addComponent(btnConnect)
-//                            .addComponent(btnSendMsg)
-//                        )
-//                )
-//                .addComponent(txtMsgArea)
-//                .addComponent(btnStartGame)
-//            )
-//            .addComponent(lblSizeX)
-//            .addComponent(txtSizeX)
-//            .addComponent(lblSizeY)
-//            .addComponent(txtSizeY)
-//            .addComponent(lblInterval)
-//            .addComponent(txtInterval)
-//            .addComponent(gameArea)
-//    );
-//
-//    groupLayout.setVerticalGroup(groupLayout.createSequentialGroup()
-//        .addGroup(groupLayout.createSequentialGroup()
-//            .addGroup(groupLayout.createSequentialGroup()
-//                .addComponent(lblConnect)
-//                .addComponent(txtNick)
-//                .addComponent(btnConnect)
-//            )
-//            .addGroup(groupLayout.createSequentialGroup()
-//                .addComponent(lblSendMsg)
-//                .addComponent(txtMsg)
-//                .addComponent(btnSendMsg)
-//            )
-//            .addComponent(txtMsgArea)
-//            .addComponent(btnStartGame)
-//            .addComponent(lblSizeX)
-//            .addComponent(txtSizeX)
-//            .addComponent(lblSizeY)
-//            .addComponent(txtSizeY)
-//            .addComponent(lblInterval)
-//            .addComponent(txtInterval)
-//        )
-//        .addComponent(gameArea)
-//    );
+    constraints.gridx = 0;
+    constraints.gridy = 4;
+    add(lblCirclePoint, constraints);
+
+    constraints.gridx = 0;
+    constraints.gridy = 5;
+    add(lblTrianglePoint, constraints);
+
+    constraints.gridx = 0;
+    constraints.gridy = 6;
+    add(lblSquarePoint, constraints);
+
+    constraints.gridx = 0;
+    constraints.gridy = 7;
+    add(lblTotalPoints, constraints);
 
     pack();
-
-//    GroupLayout layout = new GroupLayout(getContentPane());
-//    getContentPane().setLayout(layout);
-//    layout.setHorizontalGroup(
-//        layout.createParallelGroup(GroupLayout.Alignment.LEADING)
-//            .addGroup(layout.createSequentialGroup()
-//                .addGroup(layout.createParallelGroup(GroupLayout.Alignment.LEADING)
-//                    .addGroup(layout.createSequentialGroup()
-//                        .addContainerGap()
-//                        .addComponent(lblConnect)
-//                        .addGap(27, 27, 27)
-//                        .addComponent(btnConnect, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-//                        .addPreferredGap(LayoutStyle.ComponentPlacement.UNRELATED)
-//                        .addComponent(txtNick, GroupLayout.PREFERRED_SIZE, 61, GroupLayout.PREFERRED_SIZE))
-//                    .addGroup(layout.createSequentialGroup()
-//                        .addContainerGap()
-//                        .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
-//                        .addComponent(lblSendMsg)
-//                        .addPreferredGap(LayoutStyle.ComponentPlacement.UNRELATED)
-//                        .addComponent(txtMsg, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-//                        .addGap(18, 18, 18)
-//                        .addComponent(btnSendMsg))
-//                    .addGroup(layout.createSequentialGroup()
-//                        .addGap(21, 21, 21)
-//                        .addGroup(layout.createParallelGroup(GroupLayout.Alignment.LEADING)
-//                            .addGroup(layout.createSequentialGroup()
-//                                .addComponent(lblSendMsg)
-//                                .addGap(18, 18, 18)
-//                                .addComponent(txtMsg, GroupLayout.PREFERRED_SIZE, 158, GroupLayout.PREFERRED_SIZE)
-//                                .addPreferredGap(LayoutStyle.ComponentPlacement.UNRELATED)
-//                                .addComponent(btnSendMsg))
-//                            .addComponent(scrollMsgArea, GroupLayout.PREFERRED_SIZE, 456, GroupLayout.PREFERRED_SIZE))))
-//                .addContainerGap(155, Short.MAX_VALUE))
-//    );
-//    layout.setVerticalGroup(
-//        layout.createParallelGroup(GroupLayout.Alignment.LEADING)
-//            .addGroup(layout.createSequentialGroup()
-//                .addContainerGap()
-//                .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
-//                .addGroup(layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
-//                    .addComponent(txtNick, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-//                .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED, 24, Short.MAX_VALUE)
-//                .addGroup(layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
-//                    .addComponent(btnSendMsg)
-//                    .addComponent(txtMsg, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-//                    .addComponent(lblSendMsg))
-//                .addPreferredGap(LayoutStyle.ComponentPlacement.UNRELATED)
-//                .addComponent(scrollMsgArea, GroupLayout.PREFERRED_SIZE, 419, GroupLayout.PREFERRED_SIZE)
-//                .addContainerGap())
-//    );
   }
 
   public static void main(String[] args) {
@@ -317,6 +236,7 @@ public class ClientArea extends JFrame {
     txtNick.setVisible(false);
     btnConnect.setVisible(false);
 
+    btnSendMsg.setVisible(true);
     switchOptions(true);
     btnStartGame.setVisible(true);
 
@@ -329,17 +249,34 @@ public class ClientArea extends JFrame {
 
   private void btnStartGameActionPerformed(ActionEvent evt) {
     switchOptions(false);
-    generate = true;
 
-    setSize(new Dimension((Integer.valueOf(txtSizeX.getText()) < 400 ? 400 : Integer.valueOf(txtSizeX.getText())) + 800, (Integer.valueOf(txtSizeY.getText()) < 400 ? 400 : Integer.valueOf(txtSizeY.getText())) + 100));
+    channel.writeAndFlush("[CMD] - start-game");
 
-    //TODO oyun kurucu oyunu başat tuşuna bastığında diğer oyunlarda otomatik başlamalı
+    if (btnStartGame.getText().equals("Start Game")) {
+      generate = true;
+    }
+
+    setSize(new Dimension((Integer.valueOf(txtSizeX.getText()) < 400 ? 400 : Integer.valueOf(txtSizeX.getText())) + 800, (Integer.valueOf(txtSizeY.getText()) < 400 ? 400 : Integer.valueOf(txtSizeY.getText())) + 130));
 
     windowWidth = Integer.valueOf(txtSizeX.getText()) - 300;
     windowHeight = Integer.valueOf(txtSizeY.getText());
     gameArea.setPreferredSize(new Dimension(windowWidth, windowHeight));
     gameArea.setBorder(BorderFactory.createTitledBorder("game-area"));
     gameArea.setVisible(true);
+
+    pointsArray[0] = Generators.generatePoint();//circle point
+    pointsArray[1] = Generators.generatePoint();//triangle point
+    pointsArray[2] = Generators.generatePoint();//square point
+    lblCirclePoint.setText("Circle Point : " + pointsArray[0]);
+    lblTrianglePoint.setText("Triangle Point : " + pointsArray[1]);
+    lblSquarePoint.setText("Square Point : " + pointsArray[2]);
+    lblTotalPoints.setText("Your Total Points : " + totalPoints);
+    lblCirclePoint.setVisible(true);
+    lblTrianglePoint.setVisible(true);
+    lblSquarePoint.setVisible(true);
+    lblTotalPoints.setVisible(true);
+
+    btnStartGame.setVisible(false);
   }
 
   private void switchOptions(boolean state) {
@@ -385,14 +322,20 @@ public class ClientArea extends JFrame {
       TimerTask task = new TimerTask() {
         @Override
         public void run() {
-          if (generate && dedicated) {
+          if (generate) {
             Figure figure = Generators.generateOneShape(windowWidth, windowHeight);
-            if (figure.type.equals(RectType.TRIANGLE)){
-              channel.writeAndFlush("[CMD] - Created | Type : <<" + figure.type + ">> " +
+            if (figure.type.equals(RectType.TRIANGLE)) {
+              channel.writeAndFlush("[CMD] - CREATED " +
+                  "| Type : <<" + figure.type + ">> " +
                   "| Color : <<" + figure.color + ">> " +
-                  "| Bounds : <<" + Arrays.toString(((Polygon) figure.shape).xpoints) + "|" + Arrays.toString(((Polygon) figure.shape).ypoints) + "|" + ((Polygon)figure.shape).npoints + ">> \r\n");
-            }else{
-              channel.writeAndFlush("[CMD] - Created | Type : <<" + figure.type + ">> | Color : <<" + figure.color + ">> | Bounds : <<" + figure.shape.getBounds() + ">> \r\n");
+                  "| Bounds : <<" + Arrays.toString(((Polygon) figure.shape).xpoints) + "|" + Arrays.toString(((Polygon) figure.shape).ypoints) + "|" + ((Polygon) figure.shape).npoints + ">> " +
+                  "| FigureCreation : <<" + figure.createdAt + ">> \r\n");
+            } else {
+              channel.writeAndFlush("[CMD] - CREATED " +
+                  "| Type : <<" + figure.type + ">> " +
+                  "| Color : <<" + figure.color + ">> " +
+                  "| Bounds : <<" + figure.shape.getBounds() + ">> " +
+                  "| FigureCreation : <<" + figure.createdAt + ">> \r\n");
             }
             figures.add(figure);
             repaint();
@@ -402,10 +345,6 @@ public class ClientArea extends JFrame {
         }
       };
       timer.schedule(task, 0, Integer.valueOf(txtInterval.getText()) * 1000);
-
-      pointsArray[0] = Generators.generatePoint();//circle point
-      pointsArray[1] = Generators.generatePoint();//triangle point
-      pointsArray[2] = Generators.generatePoint();//square point
     }
 
     @Override
@@ -424,73 +363,22 @@ public class ClientArea extends JFrame {
       @Override
       public void mousePressed(MouseEvent e) {
         Point mousePoint = e.getPoint();
-        System.out.println(mousePoint.x + "---" + mousePoint.y);
         for (int i = 0; i < figures.size(); i++) {
           if (figures.get(i).shape.contains(mousePoint)) {
             totalPoints = totalPoints + pointsArray[figures.get(i).type.ordinal()];
             System.out.println("Points : " + totalPoints);
 
             long clickTime = Instant.now().toEpochMilli();
-            channel.writeAndFlush("[CMD] - Clicked : <<" + figures.get(i).type + ">> | Time : <<" + clickTime + ">> \r\n");
+            channel.writeAndFlush("[CMD] - CLICKED : <<" + figures.get(i).type + ">> " +
+                "| Time : <<" + clickTime + ">> " +
+                "| FigureCreation : <<" + figures.get(i).createdAt + ">> \r\n");
 
             figures.remove(figures.get(i));
             repaint();
           }
         }
+        lblTotalPoints.setText("Your Total Points : " + totalPoints);
       }
-    }
-  }
-
-  static String sysMsg = "";
-
-  public static class ChatClientHandler extends SimpleChannelInboundHandler<String> {
-    @Override
-    protected void channelRead0(ChannelHandlerContext ctx, String message) {
-
-      if (message.contains("[MSG]")) {
-        txtMsgArea.setText(txtMsgArea.getText() + message + "\r\n");
-      }
-
-      if (message.contains("[CMD]") && message.contains("Created") && !message.contains("YOU")){
-        Figure serverCreatedFigure = new Figure();
-
-        RectType type = Utils.parseRectType(message);
-
-        switch (type){
-          case CIRCLE:
-            serverCreatedFigure.shape = Utils.parseCircle(message);
-            break;
-          case SQUARE:
-            serverCreatedFigure.shape = Utils.parseSquare(message);
-            break;
-          case TRIANGLE:
-            serverCreatedFigure.shape = Utils.parseTriangle(message);
-            break;
-        }
-
-        serverCreatedFigure.color = Utils.parseColor(message);
-        figures.add(serverCreatedFigure);
-      }
-
-      if (!dedicated) {
-        sysMsg = message;
-
-        if (!sysMsg.contains("HOST")){
-          lblSizeX.setVisible(false);
-          txtSizeX.setVisible(false);
-          lblSizeY.setVisible(false);
-          txtSizeY.setVisible(false);
-          lblInterval.setVisible(false);
-          txtInterval.setVisible(false);
-          lblShapeLimit.setVisible(false);
-          txtShapeLimit.setVisible(false);
-          btnStartGame.setText("Join Game");
-
-          dedicated = true;
-        }
-      }
-
-      System.out.println(message);
     }
   }
 }

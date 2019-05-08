@@ -18,6 +18,6 @@ public class ChatClientInitializer extends ChannelInitializer<SocketChannel> {
     //channelPipeline.addLast("framer", new DelimiterBasedFrameDecoder(8192, Delimiters.lineDelimiter()));
     channelPipeline.addLast("decoder", new StringDecoder());
     channelPipeline.addLast("encoder", new StringEncoder());
-    channelPipeline.addLast("handler", new ClientArea.ChatClientHandler());
+    channelPipeline.addLast("handler", new ChatClientHandler());
   }
 }
