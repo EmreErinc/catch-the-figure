@@ -11,10 +11,9 @@ import java.awt.event.ActionEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.time.Instant;
-import java.util.Arrays;
+import java.util.*;
+import java.util.List;
 import java.util.Timer;
-import java.util.TimerTask;
-import java.util.Vector;
 
 /**
  * Created by emre on 29.04.2019
@@ -47,17 +46,17 @@ public class ClientArea extends JFrame {
   public static GameArea gameArea;
   private int windowWidth = 700;
   private int windowHeight = 700;
-  private int[] pointsArray = new int[3];
+  public static int[] pointsArray = new int[3];
 
   private int totalPoints = 0;
 
   private static final String host = "localhost";
   private static final int port = 8000;
-  private static boolean registered = false;
   private static Channel channel;
   private EventLoopGroup group;
   private Bootstrap bootstrap;
 
+  private int count = 0;
   private boolean generate = false;
 
   public ClientArea() {
@@ -250,23 +249,26 @@ public class ClientArea extends JFrame {
   private void btnStartGameActionPerformed(ActionEvent evt) {
     switchOptions(false);
 
-    channel.writeAndFlush("[CMD] - start-game");
-
     if (btnStartGame.getText().equals("Start Game")) {
+      pointsArray[0] = Generators.generatePoint();//circle point
+      pointsArray[1] = Generators.generatePoint();//triangle point
+      pointsArray[2] = Generators.generatePoint();//square point
+
+      channel.writeAndFlush("[CMD] - START " +
+          "| Interval : <<" + txtInterval.getText() + ">> " +
+          "| X : <<" + txtSizeX.getText() + ">> " +
+          "| Y : <<" + txtSizeY.getText() + ">> " +
+          "| ShapeCount : <<" + txtShapeLimit.getText() + ">> " +
+          "| Points : <<" + Arrays.toString(pointsArray) + ">>\r\n");
+
       generate = true;
     }
 
     setSize(new Dimension((Integer.valueOf(txtSizeX.getText()) < 400 ? 400 : Integer.valueOf(txtSizeX.getText())) + 800, (Integer.valueOf(txtSizeY.getText()) < 400 ? 400 : Integer.valueOf(txtSizeY.getText())) + 130));
-
-    windowWidth = Integer.valueOf(txtSizeX.getText()) - 300;
-    windowHeight = Integer.valueOf(txtSizeY.getText());
-    gameArea.setPreferredSize(new Dimension(windowWidth, windowHeight));
+    gameArea.setPreferredSize(new Dimension(Integer.valueOf(txtSizeX.getText()) - 300, Integer.valueOf(txtSizeY.getText())));
     gameArea.setBorder(BorderFactory.createTitledBorder("game-area"));
     gameArea.setVisible(true);
 
-    pointsArray[0] = Generators.generatePoint();//circle point
-    pointsArray[1] = Generators.generatePoint();//triangle point
-    pointsArray[2] = Generators.generatePoint();//square point
     lblCirclePoint.setText("Circle Point : " + pointsArray[0]);
     lblTrianglePoint.setText("Triangle Point : " + pointsArray[1]);
     lblSquarePoint.setText("Square Point : " + pointsArray[2]);
@@ -302,7 +304,6 @@ public class ClientArea extends JFrame {
       channel = bootstrap.connect(host, port).sync().channel();
       System.out.println(txtNick.getText());
       channel.writeAndFlush("[USR]" + txtNick.getText() + "\r\n");
-      registered = true;
 
     } catch (InterruptedException e1) {
       e1.printStackTrace();
@@ -317,7 +318,7 @@ public class ClientArea extends JFrame {
     public GameArea() {
       MyMouseAdapter myMouseAdapter = new MyMouseAdapter();
       addMouseListener(myMouseAdapter);
-
+      refresher();
       Timer timer = new Timer();
       TimerTask task = new TimerTask() {
         @Override
@@ -338,13 +339,26 @@ public class ClientArea extends JFrame {
                   "| FigureCreation : <<" + figure.createdAt + ">> \r\n");
             }
             figures.add(figure);
-            repaint();
-            if (figures.size() == Integer.valueOf(txtShapeLimit.getText()))
+            count++;
+            if (count == Integer.valueOf(txtShapeLimit.getText())) {
               timer.cancel();
+            }
           }
+          repaint();
         }
       };
       timer.schedule(task, 0, Integer.valueOf(txtInterval.getText()) * 1000);
+    }
+
+    private void refresher() {
+      Timer timer = new Timer();
+      TimerTask task = new TimerTask() {
+        @Override
+        public void run() {
+          repaint();
+        }
+      };
+      timer.schedule(task, 0, 100);
     }
 
     @Override
@@ -359,23 +373,38 @@ public class ClientArea extends JFrame {
       }
     }
 
+    private List<Figure> clickedFigures = new ArrayList<>();
+    Long createdAt = 0L;
+    Long clickTime = 0L;
+
     private class MyMouseAdapter extends MouseAdapter {
       @Override
       public void mousePressed(MouseEvent e) {
         Point mousePoint = e.getPoint();
-        for (int i = 0; i < figures.size(); i++) {
-          if (figures.get(i).shape.contains(mousePoint)) {
-            totalPoints = totalPoints + pointsArray[figures.get(i).type.ordinal()];
-            System.out.println("Points : " + totalPoints);
-
-            long clickTime = Instant.now().toEpochMilli();
-            channel.writeAndFlush("[CMD] - CLICKED : <<" + figures.get(i).type + ">> " +
-                "| Time : <<" + clickTime + ">> " +
-                "| FigureCreation : <<" + figures.get(i).createdAt + ">> \r\n");
-
-            figures.remove(figures.get(i));
-            repaint();
+        for (Figure figure : figures) {
+          if (figure.shape.contains(mousePoint)) {
+            createdAt = figure.createdAt;
+            clickTime = Instant.now().toEpochMilli();
+            if (clickedFigures.stream().noneMatch(clicked -> clicked.createdAt.equals(createdAt))) {
+              clickedFigures.add(figure);
+            }
           }
+        }
+
+        if (clickedFigures.size() != 0) {
+          int lastIndex = 0;
+          if (clickedFigures.size() > 1) {
+            lastIndex = clickedFigures.size() - 1;
+            clickedFigures.sort(Comparator.comparing(figure -> figure.createdAt));
+          }
+          totalPoints = totalPoints + pointsArray[clickedFigures.get(lastIndex).type.ordinal()];
+          System.out.println("Points : " + totalPoints);
+          figures.remove(clickedFigures.get(lastIndex));
+          channel.writeAndFlush("[CMD] - CLICKED : <<" + clickedFigures.get(lastIndex).type + ">> " +
+              "| Time : <<" + clickTime + ">> " +
+              "| FigureCreation : <<" + clickedFigures.get(lastIndex).createdAt + ">> \r\n");
+          clickedFigures.clear();
+          repaint();
         }
         lblTotalPoints.setText("Your Total Points : " + totalPoints);
       }

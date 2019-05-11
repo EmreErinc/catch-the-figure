@@ -41,8 +41,8 @@ public class Utils {
     String bounds = text.split(Pattern.quote("<<"))[4].split(Pattern.quote(">>"))[0];
 
     Polygon triangle = new Polygon();
-    triangle.xpoints = parsePoints(bounds.split(Pattern.quote("|"))[0].split(Pattern.quote("<<"))[0]);
-    triangle.ypoints = parsePoints(bounds.split(Pattern.quote("|"))[1]);
+    triangle.xpoints = parseTrianglePoints(bounds.split(Pattern.quote("|"))[0].split(Pattern.quote("<<"))[0]);
+    triangle.ypoints = parseTrianglePoints(bounds.split(Pattern.quote("|"))[1]);
     triangle.npoints = Integer.valueOf(bounds.split(Pattern.quote("|"))[2].split(Pattern.quote(">>"))[0]);
     return triangle;
   }
@@ -65,7 +65,7 @@ public class Utils {
     return square;
   }
 
-  public static int[] parsePoints(String pointsString) {
+  public static int[] parseTrianglePoints(String pointsString) {
     int[] result = new int[3];
 
     result[0] = Integer.valueOf(pointsString.split(Pattern.quote(","))[0].split(Pattern.quote("["))[1]);
@@ -109,4 +109,57 @@ public class Utils {
     return text.split(Pattern.quote("<<"))[3].split(Pattern.quote(">>"))[0];
   }
 
+  public static String parseIntervalForServer(String text) {
+    return text.split(Pattern.quote("<<"))[1].split(Pattern.quote(">>"))[0];
+  }
+
+  public static String parseXForServer(String text) {
+    return text.split(Pattern.quote("<<"))[2].split(Pattern.quote(">>"))[0];
+  }
+
+  public static String parseYForServer(String text) {
+    return text.split(Pattern.quote("<<"))[3].split(Pattern.quote(">>"))[0];
+  }
+
+  public static String parseShapeCountForServer(String text) {
+    return text.split(Pattern.quote("<<"))[4].split(Pattern.quote(">>"))[0];
+  }
+
+  public static String parsePointsForServer(String text) {
+    return text.split(Pattern.quote("<<"))[5].split(Pattern.quote(">>"))[0];
+  }
+
+  public static String parseInterval(String text) {
+    return text.split(Pattern.quote("<<"))[2].split(Pattern.quote(">>"))[0];
+  }
+
+  public static String parseX(String text) {
+    return text.split(Pattern.quote("<<"))[3].split(Pattern.quote(">>"))[0];
+  }
+
+  public static String parseY(String text) {
+    return text.split(Pattern.quote("<<"))[4].split(Pattern.quote(">>"))[0];
+  }
+
+  public static String parseShapeCount(String text) {
+    return text.split(Pattern.quote("<<"))[5].split(Pattern.quote(">>"))[0];
+  }
+
+  public static int[] parsePointsArray(String text) {
+    int[] points = new int[3];
+    String pointsStr = text.split(Pattern.quote("<<"))[6].split(Pattern.quote(">>"))[0];
+    points[0] = Integer.valueOf(pointsStr.split(Pattern.quote(","))[0].split(Pattern.quote("["))[1]);
+    points[1] = Integer.valueOf(pointsStr.split(Pattern.quote(", "))[1]);
+    points[2] = Integer.valueOf(pointsStr.split(Pattern.quote(", "))[2].split(Pattern.quote("]"))[0]);
+
+    return points;
+  }
+
+  public static String parseMsgNick(String text) {
+    return text.split(Pattern.quote("<<"))[1].split(Pattern.quote(">>"))[0];
+  }
+
+  public static String parseMsg(String text) {
+    return text.split(Pattern.quote(">> "))[1];
+  }
 }

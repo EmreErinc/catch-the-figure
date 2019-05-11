@@ -27,38 +27,55 @@ public class ChatClientHandler extends SimpleChannelInboundHandler<String> {
       }
     }
 
+    if (message.contains("[SYS] - A new user has joined")) {
+      ClientArea.txtMsgArea.setText(ClientArea.txtMsgArea.getText() + "A new user has joined" + "\r\n");
+    }
+
+    if (message.contains("has left")) {
+      ClientArea.txtMsgArea.setText(ClientArea.txtMsgArea.getText() + Utils.parseMsgNick(message) + " has left lobby" + "\r\n");
+    }
+
     if (message.contains("[MSG]")) {
-      ClientArea.txtMsgArea.setText(ClientArea.txtMsgArea.getText() + message + "\r\n");
+      ClientArea.txtMsgArea.setText(ClientArea.txtMsgArea.getText() + Utils.parseMsgNick(message) + " : " + Utils.parseMsg(message) + "\r\n");
     }
 
-    if (message.contains("[CMD]") && message.contains("CREATED") && !message.contains("YOU")) {
-      Figure serverCreatedFigure = new Figure();
-      RectType type = Utils.parseRectType(message);
-      switch (type) {
-        case CIRCLE:
-          serverCreatedFigure.shape = Utils.parseCircle(message);
-          break;
-        case SQUARE:
-          serverCreatedFigure.shape = Utils.parseSquare(message);
-          break;
-        case TRIANGLE:
-          serverCreatedFigure.shape = Utils.parseTriangle(message);
-          break;
+    if (message.contains("[CMD]") && !message.contains("ALREADY_CLICKED") && !message.contains("YOU")) {
+      if (message.contains("CREATED")) {
+        Figure serverCreatedFigure = new Figure();
+        RectType type = Utils.parseRectType(message);
+        switch (type) {
+          case CIRCLE:
+            serverCreatedFigure.shape = Utils.parseCircle(message);
+            break;
+          case SQUARE:
+            serverCreatedFigure.shape = Utils.parseSquare(message);
+            break;
+          case TRIANGLE:
+            serverCreatedFigure.shape = Utils.parseTriangle(message);
+            break;
+        }
+        serverCreatedFigure.type = type;
+        serverCreatedFigure.createdAt = Long.valueOf(Utils.parseFigureCreatedAtForRemoteCreation(message));
+        serverCreatedFigure.color = Utils.parseColor(message);
+        ClientArea.figures.add(serverCreatedFigure);
       }
-      serverCreatedFigure.type = type;
-      serverCreatedFigure.createdAt = Long.valueOf(Utils.parseFigureCreatedAtForRemoteCreation(message));
-      serverCreatedFigure.color = Utils.parseColor(message);
-      ClientArea.figures.add(serverCreatedFigure);
-    }
 
-    if (message.contains("[CMD]") && message.contains("CLICKED") && !message.contains("YOU")) {
-      Long createdAt = Long.valueOf(Utils.parseFigureCreatedAt(message));
-      Figure clickedFigure = ClientArea.figures.stream().filter(figure -> figure.createdAt.equals(createdAt)).findFirst().get();
-      ClientArea.figures.remove(clickedFigure);
-    }
+      if (message.contains("CLICKED")) {
+        Long createdAt = Long.valueOf(Utils.parseFigureCreatedAt(message));
+        Figure clickedFigure = ClientArea.figures.stream().filter(figure -> figure.createdAt.equals(createdAt)).findFirst().get();
+        ClientArea.figures.remove(clickedFigure);
+      }
 
-    if (message.contains("[CMD] - start-game")) {
-      ClientArea.btnStartGame.doClick();
+      if (message.contains("STARTED")) {
+        ClientArea.txtInterval.setText(Utils.parseInterval(message));
+        ClientArea.txtSizeX.setText(Utils.parseX(message));
+        ClientArea.txtSizeY.setText(Utils.parseY(message));
+        ClientArea.txtShapeLimit.setText(Utils.parseShapeCount(message));
+
+        ClientArea.pointsArray = Utils.parsePointsArray(message);
+
+        ClientArea.btnStartGame.doClick();
+      }
     }
 
     System.out.println(message);
