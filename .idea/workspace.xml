@@ -2,27 +2,11 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="57adef33-342f-424a-a373-0dd293d3dc86" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/src/main/java/sample/server/GameResult.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/sample/client/ChatClientHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/sample/client/ChatClientHandler.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/sample/client/ClientArea.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/sample/client/ClientArea.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/sample/client/Generators.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/sample/client/Generators.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/sample/client/Utils.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/sample/client/Utils.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/sample/server/FigureClick.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/sample/server/FigureClick.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/sample/server/ServerHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/sample/server/ServerHandler.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/sample/client/ChatClientHandler.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/sample/client/ChatClientHandler.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/sample/client/ClientArea$GameArea$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/sample/client/ClientArea$GameArea$1.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/sample/client/ClientArea$GameArea$2.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/sample/client/ClientArea$GameArea$2.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/sample/client/ClientArea$GameArea$MyMouseAdapter.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/sample/client/ClientArea$GameArea$MyMouseAdapter.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/sample/client/ClientArea$GameArea.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/sample/client/ClientArea$GameArea.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/sample/client/ClientArea.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/sample/client/ClientArea.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/sample/client/Generators.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/sample/client/Generators.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/sample/client/Utils.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/sample/client/Utils.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/sample/server/FigureClick.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/sample/server/FigureClick.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/sample/server/ServerHandler.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/sample/server/ServerHandler.class" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
     <ignored path="$PROJECT_DIR$/target/" />
+    <ignored path="catch-the-figure.iml" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -42,8 +26,8 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/main/java/sample/server/ServerHandler.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="376">
-              <caret line="119" column="61" selection-start-line="119" selection-start-column="61" selection-end-line="119" selection-end-column="61" />
+            <state relative-caret-position="355">
+              <caret line="193" column="9" selection-start-line="193" selection-start-column="9" selection-end-line="193" selection-end-column="9" />
               <folding>
                 <element signature="imports" expanded="true" />
                 <element signature="method#startGame#0;class#ServerHandler#0" />
@@ -62,15 +46,10 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/sample/client/ClientArea.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-1694">
-              <caret line="244" column="21" selection-start-line="244" selection-start-column="21" selection-end-line="244" selection-end-column="21" />
+            <state relative-caret-position="5250">
+              <caret line="373" selection-start-line="373" selection-end-line="373" />
               <folding>
                 <element signature="imports" expanded="true" />
-                <element signature="e#1776#6155#0" />
-                <element signature="e#8257#8576#0" />
-                <element signature="e#8580#9058#0" />
-                <element signature="e#10815#10917#0" expanded="true" />
-                <element signature="e#10916#10917#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -79,8 +58,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/sample/client/ChatClientHandler.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="975">
-              <caret line="65" column="52" selection-start-line="65" selection-start-column="52" selection-end-line="65" selection-end-column="52" />
+            <state relative-caret-position="1440">
+              <caret line="99" column="1" selection-start-line="99" selection-start-column="1" selection-end-line="99" selection-end-column="1" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -161,6 +140,8 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
+      <pane id="PackagesPane" />
+      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -220,22 +201,21 @@
           <select />
         </subPane>
       </pane>
-      <pane id="PackagesPane" />
-      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="android.sdk.path" value="$USER_HOME$/Android/Sdk" />
     <property name="aspect.path.notification.shown" value="true" />
-    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1557620064752" />
+    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1557620205919" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/catch-the-figure.iml" />
     <property name="nodejs_interpreter_path.stuck_in_default_project" value="undefined stuck path" />
     <property name="nodejs_npm_path_reset_for_default_project" value="true" />
     <property name="nodejs_package_manager_path" value="npm" />
     <property name="project.structure.last.edited" value="Modules" />
     <property name="project.structure.proportion" value="0.15" />
     <property name="project.structure.side.proportion" value="0.2" />
-    <property name="settings.editor.selected.configurable" value="reference.projectsettings.compiler.javacompiler" />
+    <property name="settings.editor.selected.configurable" value="project.propVCSSupport.Ignored.Files" />
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
@@ -389,12 +369,13 @@
       <workItem from="1557270593803" duration="8827000" />
       <workItem from="1557581595705" duration="20049000" />
       <workItem from="1557609807283" duration="21000" />
-      <workItem from="1557610060807" duration="9827000" />
+      <workItem from="1557610060807" duration="10134000" />
+      <workItem from="1557623811164" duration="181000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="177155000" />
+    <option name="totallyTimeSpent" value="177643000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -418,13 +399,13 @@
       <window_info id="Learn" order="7" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" weight="0.3293348" />
-      <window_info anchor="bottom" x="49" y="1117" width="1871" height="1043" id="Run" maximized="true" order="2" sideWeight="0.49972603" visible="true" weight="0.40239912" />
+      <window_info anchor="bottom" x="49" y="1117" width="1871" height="1043" id="Run" maximized="true" order="2" sideWeight="0.49972603" weight="0.40239912" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.3642312" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
       <window_info anchor="bottom" id="TODO" order="6" weight="0.3293348" />
       <window_info anchor="bottom" id="SBT Console" order="7" />
-      <window_info anchor="bottom" id="Terminal" order="8" weight="0.32824427" />
+      <window_info anchor="bottom" id="Terminal" order="8" visible="true" weight="0.32824427" />
       <window_info anchor="bottom" id="Docker" order="9" />
       <window_info anchor="bottom" id="Event Log" order="10" sideWeight="0.50027394" side_tool="true" weight="0.3297062" />
       <window_info anchor="bottom" id="Database Changes" order="11" />
@@ -817,35 +798,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/sample/client/ChatClientHandler.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="975">
-          <caret line="65" column="52" selection-start-line="65" selection-start-column="52" selection-end-line="65" selection-end-column="52" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/sample/client/ClientArea.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-1694">
-          <caret line="244" column="21" selection-start-line="244" selection-start-column="21" selection-end-line="244" selection-end-column="21" />
-          <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="e#1776#6155#0" />
-            <element signature="e#8257#8576#0" />
-            <element signature="e#8580#9058#0" />
-            <element signature="e#10815#10917#0" expanded="true" />
-            <element signature="e#10916#10917#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/sample/server/ServerHandler.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="376">
-          <caret line="119" column="61" selection-start-line="119" selection-start-column="61" selection-end-line="119" selection-end-column="61" />
+        <state relative-caret-position="355">
+          <caret line="193" column="9" selection-start-line="193" selection-start-column="9" selection-end-line="193" selection-end-column="9" />
           <folding>
             <element signature="imports" expanded="true" />
             <element signature="method#startGame#0;class#ServerHandler#0" />
@@ -856,6 +812,26 @@
             <element signature="method#listChannels#0;class#ServerHandler#0" />
             <element signature="method#stringifyUserList#0;class#ServerHandler#0" />
             <element signature="method#getUserByRemoteAddress#0;class#ServerHandler#0" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/sample/client/ClientArea.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="5250">
+          <caret line="373" selection-start-line="373" selection-end-line="373" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/sample/client/ChatClientHandler.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1440">
+          <caret line="99" column="1" selection-start-line="99" selection-start-column="1" selection-end-line="99" selection-end-column="1" />
+          <folding>
+            <element signature="imports" expanded="true" />
           </folding>
         </state>
       </provider>
