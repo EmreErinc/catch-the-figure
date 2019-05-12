@@ -1,7 +1,6 @@
 package sample.server;
 
 import io.netty.channel.Channel;
-import io.netty.channel.ChannelHandler;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
 import io.netty.channel.group.ChannelGroup;
@@ -14,6 +13,8 @@ import sample.client.Utils;
 import java.net.SocketAddress;
 import java.time.Instant;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 import static jdk.nashorn.internal.runtime.regexp.joni.Config.log;
@@ -21,11 +22,14 @@ import static jdk.nashorn.internal.runtime.regexp.joni.Config.log;
 /**
  * Created by emre on 28.04.2019
  */
-public class ServerHandler extends SimpleChannelInboundHandler<String> implements ChannelHandler {
+public class ServerHandler extends SimpleChannelInboundHandler<String> {
   private static final ChannelGroup CHANNELS = new DefaultChannelGroup(new DefaultEventExecutor());
 
   private static List<Client> clients = new ArrayList<>();
-  private List<FigureClick> figureClicks = new ArrayList<>();
+  private static List<FigureClick> figureClicks = new ArrayList<>();
+  private static int shapeCount = 0;
+  private static int clickedShapeCount = 0;
+  private static List<GameResult> results = new ArrayList<>();
 
   @Override
   public void handlerAdded(ChannelHandlerContext ctx) throws Exception {
@@ -78,27 +82,57 @@ public class ServerHandler extends SimpleChannelInboundHandler<String> implement
           createShape(incoming, Utils.parseRectTypeForServer(text), Utils.parseColorStr(text), Utils.parseBoundsStr(text), Utils.parseFigureCreatedAt(text));
         }
         if (text.contains("CLICKED")) {
-          sendClickInfo(incoming, Utils.parseRectTypeForServer(text), Utils.parseClickTime(text), Utils.parseFigureCreatedAtOnClick(text));
+          sendClickInfo(incoming, Utils.parseClickTime(text), Utils.parseFigureCreatedAtOnClick(text));
         }
         if (text.contains("START")) {
           startGame(incoming, Utils.parseIntervalForServer(text), Utils.parseXForServer(text), Utils.parseYForServer(text), Utils.parseShapeCountForServer(text), Utils.parsePointsForServer(text));
+        }
+        if (text.contains("RESULT")) {
+          collectResult(incoming, Utils.parsePoints(text));
         }
       default:
         break;
     }
   }
 
+  private void collectResult(Channel incoming, int points) {
+    GameResult gameResult = new GameResult();
+    gameResult.nick = getUserByRemoteAddress(incoming.remoteAddress());
+    gameResult.points = points;
+    gameResult.socketAddress = incoming.remoteAddress();
+
+    if (results.stream().noneMatch(result -> result.socketAddress.equals(incoming.remoteAddress()))) {
+      results.add(gameResult);
+    }
+    results.sort(Comparator.comparing(result -> result.points));
+
+    if (results.size() == CHANNELS.size()) {
+      StringBuilder result = new StringBuilder();
+      for (int i = 0; i < results.size(); i++) {
+        result.append(i + 1)
+            .append(" - Nick : ")
+            .append(results.get(results.size() - i - 1).nick)
+            .append(" Points : ")
+            .append(results.get(results.size() - i - 1).points)
+            .append("\n");
+      }
+
+      CHANNELS.writeAndFlush("[SYS] - RESULT - \n" + result);
+    }
+  }
+
   private void startGame(Channel incoming, String interval, String x, String y, String shapeCount, String points) {
+    this.shapeCount = Integer.valueOf(shapeCount);
     for (Channel channel : CHANNELS) {
       if (channel.equals(incoming)) {
-        channel.writeAndFlush("[CMD] - <<YOU>> STARTED " +
+        channel.writeAndFlush("[SYS] - <<YOU>> STARTED " +
             "| Interval : <<" + interval + ">> " +
             "| X : <<" + x + ">> " +
             "| Y : <<" + y + ">> " +
             "| ShapeCount : <<" + shapeCount + ">> " +
             "| Points : <<" + points + ">>\r\n");
       } else {
-        channel.writeAndFlush("[CMD] - <<" + getUserByRemoteAddress(incoming.remoteAddress()) + ">> STARTED " +
+        channel.writeAndFlush("[SYS] - <<" + getUserByRemoteAddress(incoming.remoteAddress()) + ">> STARTED " +
             "| Interval : <<" + interval + ">> " +
             "| X : <<" + x + ">> " +
             "| Y : <<" + y + ">> " +
@@ -106,19 +140,24 @@ public class ServerHandler extends SimpleChannelInboundHandler<String> implement
             "| Points : <<" + points + ">>\r\n");
       }
     }
-    log.print("[LOG] - <<" + incoming.remoteAddress() + ">> | - <<" + getUserByRemoteAddress(incoming.remoteAddress()) + ">> STARTED ");
+    log.print("[LOG] - <<" + incoming.remoteAddress() + ">> | <<" + getUserByRemoteAddress(incoming.remoteAddress()) + ">> - STARTED " +
+        "| Interval : <<" + interval + ">> " +
+        "| X : <<" + x + ">> " +
+        "| Y : <<" + y + ">> " +
+        "| ShapeCount : <<" + shapeCount + ">> " +
+        "| Points : <<" + points + ">>\r\n");
   }
 
   private void createShape(Channel incoming, RectType type, String color, String bounds, String createdAt) {
     for (Channel channel : CHANNELS) {
       if (channel.equals(incoming)) {
-        channel.writeAndFlush("[CMD] - <<YOU>> CREATED " +
+        channel.writeAndFlush("[SYS] - <<YOU>> CREATED " +
             "| Type : <<" + type + ">> " +
             "| Color : <<" + color + ">> " +
             "| Bounds : <<" + bounds + ">> " +
             "| FigureCreation : <<" + createdAt + ">> \r\n");
       } else {
-        channel.writeAndFlush("[CMD] - <<" + getUserByRemoteAddress(incoming.remoteAddress()) + ">> CREATED " +
+        channel.writeAndFlush("[SYS] - <<" + getUserByRemoteAddress(incoming.remoteAddress()) + ">> CREATED " +
             "| Type : <<" + type + ">> " +
             "| Color : <<" + color + ">> " +
             "| Bounds : <<" + bounds + ">> " +
@@ -133,22 +172,23 @@ public class ServerHandler extends SimpleChannelInboundHandler<String> implement
         "| FigureCreation : <<" + createdAt + ">> \r\n");
   }
 
-  private void sendClickInfo(Channel incoming, RectType rectType, long clickTime, String figureCreation) {
+  private void sendClickInfo(Channel incoming, long clickTime, String figureCreation) {
     if (figureClicks.stream().noneMatch(figureClick -> figureClick.rectCreatedAt.equals(figureCreation))) {
       FigureClick figureClick = new FigureClick();
-      figureClick.rectType = rectType;
       figureClick.clickTime = clickTime;
       figureClick.rectCreatedAt = figureCreation;
       figureClick.clickOwner = incoming.remoteAddress();
       figureClicks.add(figureClick);
 
+      clickedShapeCount++;
+
       for (Channel channel : CHANNELS) {
         if (channel.equals(incoming)) {
-          channel.writeAndFlush("[CMD] - <<YOU>> CLICKED : <<" + rectType + ">> " +
+          channel.writeAndFlush("[SYS] - <<YOU>> CLICKED " +
               "| Time : <<" + clickTime + ">> " +
               "| FigureCreation : <<" + figureCreation + ">>\n");
         } else {
-          channel.writeAndFlush("[CMD] - <<" + getUserByRemoteAddress(incoming.remoteAddress()) + ">> CLICKED : <<" + rectType + ">> " +
+          channel.writeAndFlush("[SYS] - <<" + getUserByRemoteAddress(incoming.remoteAddress()) + ">> CLICKED " +
               "| Time : <<" + clickTime + ">> " +
               "| FigureCreation : <<" + figureCreation + ">>\n");
         }
@@ -160,7 +200,12 @@ public class ServerHandler extends SimpleChannelInboundHandler<String> implement
         }
       }
     }
-    log.print("[LOG] - <<" + incoming.remoteAddress() + ">> | <<" + getUserByRemoteAddress(incoming.remoteAddress()) + ">> - CLICKED : <<" + rectType + ">> at : " + clickTime + "\n");
+    if (clickedShapeCount == shapeCount) {
+      CHANNELS.writeAndFlush("[SYS] - COLLECT");
+    }
+    log.print("[LOG] - <<" + incoming.remoteAddress() + ">> | <<" + getUserByRemoteAddress(incoming.remoteAddress()) + ">> - CLICKED " +
+        "| Time : <<" + clickTime + ">> " +
+        "| FigureCreation : <<" + figureCreation + ">>\n");
   }
 
   private void sendMessage(Channel incoming, String text) {
@@ -173,7 +218,7 @@ public class ServerHandler extends SimpleChannelInboundHandler<String> implement
           channel.writeAndFlush("[MSG] - <<" + getUserByRemoteAddress(incoming.remoteAddress()) + ">> " + message + "\n");
         }
       }
-      log.print("[LOG] - <<" + incoming.remoteAddress() + ">> | <<" + getUserByRemoteAddress(incoming.remoteAddress()) + ">> - [MSG] : " + message + "\n");
+      log.print("[LOG] - <<" + incoming.remoteAddress() + ">> | <<" + getUserByRemoteAddress(incoming.remoteAddress()) + ">> - SEND : " + message + "\n");
     }
   }
 
@@ -216,7 +261,6 @@ public class ServerHandler extends SimpleChannelInboundHandler<String> implement
     }
     return users.toString();
   }
-
 
   private String getUserByRemoteAddress(SocketAddress socketAddress) {
     for (Client client : clients) {

@@ -54,6 +54,9 @@ public class Generators {
   public static Integer generatePoint() {
     Random random = new Random();
     int point = random.nextInt(10);
+    if (point == 0){
+      return generatePoint();
+    }
     return (random.nextInt(2) == 1) ? (0 - point) : point;
   }
 

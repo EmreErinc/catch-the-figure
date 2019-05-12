@@ -25,8 +25,12 @@ public class Utils {
     return new Color(r, g, b);
   }
 
-  public static String parseFigureCreatedAtForRemoteCreation(String text) {
+  public static String parseFigureCreatedFromRemote(String text) {
     return text.split(Pattern.quote("<<"))[5].split(Pattern.quote(">>"))[0];
+  }
+
+  public static String parseFigureCreatedAtOnRemoteClick(String text) {
+    return text.split(Pattern.quote("<<"))[3].split(Pattern.quote(">>"))[0];
   }
 
   public static String parseFigureCreatedAt(String text) {
@@ -34,7 +38,7 @@ public class Utils {
   }
 
   public static String parseFigureCreatedAtOnClick(String text) {
-    return text.split(Pattern.quote("<<"))[3].split(Pattern.quote(">>"))[0];
+    return text.split(Pattern.quote("<<"))[2].split(Pattern.quote(">>"))[0];
   }
 
   public static Polygon parseTriangle(String text) {
@@ -161,5 +165,9 @@ public class Utils {
 
   public static String parseMsg(String text) {
     return text.split(Pattern.quote(">> "))[1];
+  }
+
+  public static int parsePoints(String text) {
+    return Integer.valueOf(text.split(Pattern.quote("<<"))[1].split(Pattern.quote(">>"))[0].split(Pattern.quote(": "))[1]);
   }
 }

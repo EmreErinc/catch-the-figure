@@ -3,6 +3,8 @@ package sample.client;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
 
+import java.util.regex.Pattern;
+
 /**
  * Created by emre on 28.04.2019
  */
@@ -39,7 +41,11 @@ public class ChatClientHandler extends SimpleChannelInboundHandler<String> {
       ClientArea.txtMsgArea.setText(ClientArea.txtMsgArea.getText() + Utils.parseMsgNick(message) + " : " + Utils.parseMsg(message) + "\r\n");
     }
 
-    if (message.contains("[CMD]") && !message.contains("ALREADY_CLICKED") && !message.contains("YOU")) {
+    if (message.contains("Connected User List :")) {
+      ClientArea.txtMsgArea.setText(ClientArea.txtMsgArea.getText() + message + "\r\n");
+    }
+
+    if (message.contains("[SYS]") && !message.contains("ALREADY_CLICKED") && !message.contains("YOU")) {
       if (message.contains("CREATED")) {
         Figure serverCreatedFigure = new Figure();
         RectType type = Utils.parseRectType(message);
@@ -55,13 +61,13 @@ public class ChatClientHandler extends SimpleChannelInboundHandler<String> {
             break;
         }
         serverCreatedFigure.type = type;
-        serverCreatedFigure.createdAt = Long.valueOf(Utils.parseFigureCreatedAtForRemoteCreation(message));
+        serverCreatedFigure.createdAt = Long.valueOf(Utils.parseFigureCreatedFromRemote(message));
         serverCreatedFigure.color = Utils.parseColor(message);
         ClientArea.figures.add(serverCreatedFigure);
       }
 
       if (message.contains("CLICKED")) {
-        Long createdAt = Long.valueOf(Utils.parseFigureCreatedAt(message));
+        Long createdAt = Long.valueOf(Utils.parseFigureCreatedAtOnRemoteClick(message));
         Figure clickedFigure = ClientArea.figures.stream().filter(figure -> figure.createdAt.equals(createdAt)).findFirst().get();
         ClientArea.figures.remove(clickedFigure);
       }
@@ -75,6 +81,17 @@ public class ChatClientHandler extends SimpleChannelInboundHandler<String> {
         ClientArea.pointsArray = Utils.parsePointsArray(message);
 
         ClientArea.btnStartGame.doClick();
+      }
+
+      if (message.contains("COLLECT")) {
+        ClientArea.collectResult();
+      }
+
+      if (message.contains("RESULT")) {
+        String result = message.split(Pattern.quote("[SYS] - "))[1];
+        if (!ClientArea.txtMsgArea.getText().contains(result)) {
+          ClientArea.txtMsgArea.setText(ClientArea.txtMsgArea.getText() + "\n" + result + "\n");
+        }
       }
     }
 

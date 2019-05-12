@@ -41,7 +41,7 @@ public class ClientArea extends JFrame {
   private JLabel lblCirclePoint;
   private JLabel lblTrianglePoint;
   private JLabel lblSquarePoint;
-  private JLabel lblTotalPoints;
+  private static JLabel lblTotalPoints;
 
   public static GameArea gameArea;
   private int windowWidth = 700;
@@ -242,6 +242,10 @@ public class ClientArea extends JFrame {
     connect();
   }
 
+  public static void collectResult() {
+    channel.writeAndFlush("[CMD] - RESULT | Points : <<" + lblTotalPoints.getText() + ">> \r\n");
+  }
+
   private void btnSendMsgActionPerformed(ActionEvent evt) {
     sendMessage();
   }
@@ -340,11 +344,11 @@ public class ClientArea extends JFrame {
             }
             figures.add(figure);
             count++;
+            repaint();
             if (count == Integer.valueOf(txtShapeLimit.getText())) {
               timer.cancel();
             }
           }
-          repaint();
         }
       };
       timer.schedule(task, 0, Integer.valueOf(txtInterval.getText()) * 1000);
@@ -358,7 +362,7 @@ public class ClientArea extends JFrame {
           repaint();
         }
       };
-      timer.schedule(task, 0, 100);
+      timer.schedule(task, Integer.valueOf(txtInterval.getText()) * 1000, 100);
     }
 
     @Override
@@ -398,9 +402,8 @@ public class ClientArea extends JFrame {
             clickedFigures.sort(Comparator.comparing(figure -> figure.createdAt));
           }
           totalPoints = totalPoints + pointsArray[clickedFigures.get(lastIndex).type.ordinal()];
-          System.out.println("Points : " + totalPoints);
           figures.remove(clickedFigures.get(lastIndex));
-          channel.writeAndFlush("[CMD] - CLICKED : <<" + clickedFigures.get(lastIndex).type + ">> " +
+          channel.writeAndFlush("[CMD] - CLICKED " +
               "| Time : <<" + clickTime + ">> " +
               "| FigureCreation : <<" + clickedFigures.get(lastIndex).createdAt + ">> \r\n");
           clickedFigures.clear();
