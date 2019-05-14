@@ -1,0 +1,345 @@
+Istanbul University                                                            Emre Erinç
+Computer Engineering                                                             May 2019
+Lesson: Ağ Programlama
+Project: Catch The Figure
+
+
+Description of this document
+
+	This document specifies how it works on server and client for lesson project. 	
+	Socket operations doing with Java Netty Framework, GUI design and operations doing 	
+	with Java Swing API.
+
+
+
+Table of Contents
+
+	1. Introduction………………………………………………………………………………………………………………………………………………1
+	2. States………………………………………………………………………………………………………………………………………………………………1
+	3. States Descriptions……………………………………………………………………………………………………………………………2
+		3.1. USR………………………………………………………………………………………………………………………………………………2
+		3.2. MSG………………………………………………………………………………………………………………………………………………3
+		3.3. CMD………………………………………………………………………………………………………………………………………………4
+		3.4. SYS………………………………………………………………………………………………………………………………………………5
+		3.5. LOG………………………………………………………………………………………………………………………………………………5	
+		
+
+
+1. Introduction
+
+	Created a protocol for a lesson project. Protocol based on Java Netty Framework 	
+	for socket messages. 
+
+
+
+2. States
+
+	USR
+	MSG
+		-ls
+		message
+	CMD
+		CREATED
+		CLICKED
+		START
+		RESULT
+	SYS
+
+
+
+       |-----|      |-----|      |-----|            |-----|      |-----|                                         
+       | USR |----->| MSG |----->| CMD |            | SYS |----->| LOG |                                  
+       |-----|      |-----|      |-----|            |-----|      |-----|                                          
+                       |            |                  
+                       |            |
+                  |---------|  |---------|
+                  | message |  | CREATED |                                                                                                      
+                  |---------|  |---------|                                                                                                                                                     
+                       |            |                                                                  
+                       |            |                                                                    
+                       |            |                                                                 
+                    |-----|     |-------|      |---------|      |--------|                                                                  
+                    | -ls |     | START |----->| CLICKED |----->| RESULT |                                                                      
+                    |-----|     |-------|      |---------|      |--------|                                                           
+                                                                                                      
+                                                                                               
+         
+                                                                             
+                                                                                                  
+Emre Erinç                           Catch The Figure  				  [Page 1]
+                                     Catch The Figure  				  May 2019
+
+3. State Descriptions
+
+3.1. USR
+	Accept any user want to connect to server with nick name. If user the first member 
+	to connect to server, server assign him/her as a HOST. Other members assign as a 
+	SUBSCRIBER.
+	
+	Participant Message :
+		"[USR] – nick"
+
+	Server Message (to joined member) :
+		"[SYS] - " + "WELCOME TO LOBBY!\r\n" +
+    		"[SYS] - " + "YOUR INFO : ip:port\r\n" +
+    		"[SYS] - Server Time : serverTime\r\n" +
+    		"[SYS] - Client Role : <<HOST>> or <<SUBSCRIBER>> \r\n"
+
+	Server Message (to all participants) :
+		"[SYS] - A new user has joined\n"
+
+	Server Message (when disconnect member) :
+		"[SYS] - <<nick>> has left\n"
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Emre Erinç                           Catch The Figure  				  [Page 2]
+                                     Catch The Figure  				  May 2019
+
+3.2. MSG
+	Communication messages between members.
+
+	Participant Message :
+		"[MSG] message\r\n"
+
+	Server Message :
+		"[MSG] - <<sender>> message\n"
+
+	If any member want learn how many member at lobby, message need to contain "-ls" 	
+	parameter.  
+	
+	Server Message :
+		"Connected User List : userList\n"
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Emre Erinç                           Catch The Figure  				  [Page 3]
+                                     Catch The Figure  				  May 2019
+
+3.3. CMD
+
+CREATED : Give figure creation info from host user and send this information to all 	
+	participants.
+
+	Host Message :
+		"[CMD] - CREATED " +
+    		"| Type : <<figureType>> " +
+    		"| Color : <<figureColor>> " +
+    		"| Bounds : <<"figureBounds>> " +
+    		"| FigureCreation : <<figureCreatedAt>> \r\n"
+
+	Participant Message From Server :
+		"[SYS] - <<host>> CREATED " +
+    		"| Type : <<figureType>> " +
+    		"| Color : <<figureColor>> " +
+    		"| Bounds : <<figureBounds>> " +
+    		"| FigureCreation : <<figureCreatedAt>> \r\n"
+
+START : Take game start command from host user and send to all participants.
+
+	Host Message :
+		"[CMD] - START " +
+    		"| Interval : <<figureCreationInterval>> " +
+    		"| X : <<windowHeigth>> " +
+    		"| Y : <<windowWidth>> " +
+    		"| FigureCount : <<figureCount>> " +
+    		"| Points : <<figurePoints>>\r\n"
+
+	Participant Message From Server :
+		"[SYS] - <<host>> STARTED " +
+    		"| Interval : <<figureCreationInterval>> " +
+    		"| X : <<windowHeigth>> " +
+    		"| Y : <<windowWidth>> " +
+    		"| FigureCount : <<figureCount>> " +
+    		"| Points : <<figurePoints>>\r\n"
+
+CLICKED : Give figure click info from any user and send this information to all 	
+	participants.
+
+	User Message :
+		"[CMD] - CLICKED " +
+    		"| Time : <<clickTime>> " +
+    		"| FigureCreation : <<figureCreatedAt>> \r\n"
+
+	Participant Message From Server (Accept – to all participants) :
+		"[SYS] - <<sender>> CLICKED " +
+		"| Time : <<clickTime>> " +
+    		"| FigureCreation : <<figureCreatedAt>> \r\n"
+
+	Participant Message From Server (Reject – to sender) :
+		"[SYS] - ALREADY_CLICKED\n"
+
+RESULT : Calculate clicked figure count by server and control it. If every figures were 	
+	CLICKED status send to all participants COLLECT message and participants sends 	
+	there points. Server collect them and send as a RESULT.
+
+	Server Message :
+		"[SYS] – COLLECT"
+
+	Participant Message :
+		"[CMD] - RESULT | Points : <<points>> \r\n"
+
+	Server Message :
+		"[SYS] - RESULT - resultList \r\n"
+
+Emre Erinç                           Catch The Figure  				  [Page 4]
+                                     Catch The Figure  				  May 2019
+
+3.4. SYS
+	This states includes all server based messages.
+
+
+
+
+3.5. LOG
+	This is not exactly state. Just for logging any transaction for serverside.
+
+	Server Log :
+		"[LOG] - <<incomingMessageAddress>> " +
+		" all other below messages \r\n"
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Emre Erinç                           Catch The Figure  				  [Page 5]
