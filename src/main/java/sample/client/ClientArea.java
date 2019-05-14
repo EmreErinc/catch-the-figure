@@ -249,7 +249,10 @@ public class ClientArea extends JFrame {
   }
 
   private void btnSendMsgActionPerformed(ActionEvent evt) {
-    sendMessage();
+    if (!txtMsg.getText().equals("")){
+      channel.writeAndFlush("[MSG] " + txtMsg.getText() + "\r\n");
+      txtMsg.setText("");
+    }
   }
 
   private void btnStartGameActionPerformed(ActionEvent evt) {
@@ -264,7 +267,7 @@ public class ClientArea extends JFrame {
           "| Interval : <<" + txtInterval.getText() + ">> " +
           "| X : <<" + txtSizeX.getText() + ">> " +
           "| Y : <<" + txtSizeY.getText() + ">> " +
-          "| ShapeCount : <<" + txtShapeLimit.getText() + ">> " +
+          "| FigureCount : <<" + txtShapeLimit.getText() + ">> " +
           "| Points : <<" + Arrays.toString(pointsArray) + ">>\r\n");
 
       generate = true;
@@ -308,16 +311,11 @@ public class ClientArea extends JFrame {
           .handler(new ChatClientInitializer());
 
       channel = bootstrap.connect(host, port).sync().channel();
-      System.out.println(txtNick.getText());
-      channel.writeAndFlush("[USR]" + txtNick.getText() + "\r\n");
+      channel.writeAndFlush("[USR] " + txtNick.getText() + "\r\n");
 
     } catch (InterruptedException e1) {
       e1.printStackTrace();
     }
-  }
-
-  private void sendMessage() {
-    channel.writeAndFlush("[MSG]" + txtMsg.getText() + "\r\n");
   }
 
   public class GameArea extends JPanel {

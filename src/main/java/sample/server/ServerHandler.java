@@ -26,7 +26,7 @@ public class ServerHandler extends SimpleChannelInboundHandler<String> {
 
   private static List<Client> clients = new ArrayList<>();
   private static List<FigureClick> figureClicks = new ArrayList<>();
-  private static int shapeCount = 0;
+  private static int figureCount = 0;
   private static int clickedShapeCount = 0;
   private static List<GameResult> results = new ArrayList<>();
 
@@ -119,21 +119,21 @@ public class ServerHandler extends SimpleChannelInboundHandler<String> {
     }
   }
 
-  private void startGame(Channel incoming, String interval, String x, String y, String shapeCount, String points) {
-    this.shapeCount = Integer.valueOf(shapeCount);
+  private void startGame(Channel incoming, String interval, String x, String y, String figureCount, String points) {
+    this.figureCount = Integer.valueOf(figureCount);
     for (Channel channel : CHANNELS) {
       channel.writeAndFlush("[SYS] - <<" + (channel.equals(incoming) ? "YOU" : getUserByRemoteAddress(incoming.remoteAddress())) + ">> STARTED " +
           "| Interval : <<" + interval + ">> " +
           "| X : <<" + x + ">> " +
           "| Y : <<" + y + ">> " +
-          "| ShapeCount : <<" + shapeCount + ">> " +
+          "| FigureCount : <<" + figureCount + ">> " +
           "| Points : <<" + points + ">>\r\n");
     }
     log.print("[LOG] - <<" + incoming.remoteAddress() + ">> | <<" + getUserByRemoteAddress(incoming.remoteAddress()) + ">> - STARTED " +
         "| Interval : <<" + interval + ">> " +
         "| X : <<" + x + ">> " +
         "| Y : <<" + y + ">> " +
-        "| ShapeCount : <<" + shapeCount + ">> " +
+        "| FigureCount : <<" + figureCount + ">> " +
         "| Points : <<" + points + ">>\r\n");
   }
 
@@ -171,11 +171,11 @@ public class ServerHandler extends SimpleChannelInboundHandler<String> {
     } else {
       for (Channel channel : CHANNELS) {
         if (channel.equals(incoming)) {
-          channel.writeAndFlush("[CMD] - ALREADY_CLICKED\n");
+          channel.writeAndFlush("[SYS] - ALREADY_CLICKED\n");
         }
       }
     }
-    if (clickedShapeCount == shapeCount) {
+    if (clickedShapeCount == figureCount) {
       CHANNELS.writeAndFlush("[SYS] - COLLECT");
     }
     log.print("[LOG] - <<" + incoming.remoteAddress() + ">> | <<" + getUserByRemoteAddress(incoming.remoteAddress()) + ">> - CLICKED " +

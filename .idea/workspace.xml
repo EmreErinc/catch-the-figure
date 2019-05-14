@@ -2,8 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="57adef33-342f-424a-a373-0dd293d3dc86" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/sample/client/ClientArea.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/sample/client/ClientArea.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/sample/client/Utils.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/sample/client/Utils.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/sample/server/ServerHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/sample/server/ServerHandler.java" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
@@ -25,13 +25,23 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/sample/server/ServerHandler.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="165">
-              <caret line="113" column="25" selection-start-line="113" selection-start-column="25" selection-end-line="113" selection-end-column="25" />
+            <state relative-caret-position="641">
+              <caret line="139" column="107" selection-start-line="139" selection-start-column="107" selection-end-line="139" selection-end-column="107" />
               <folding>
                 <element signature="imports" expanded="true" />
+                <element signature="method#handlerAdded#0;class#ServerHandler#0" />
+                <element signature="method#handlerRemoved#0;class#ServerHandler#0" />
+                <element signature="method#collectResult#0;class#ServerHandler#0" />
+                <element signature="method#startGame#0;class#ServerHandler#0" />
+                <element signature="method#createShape#0;class#ServerHandler#0" />
+                <element signature="method#sendClickInfo#0;class#ServerHandler#0" />
+                <element signature="method#sendMessage#0;class#ServerHandler#0" />
+                <element signature="method#addUser#0;class#ServerHandler#0" />
+                <element signature="method#removeUser#0;class#ServerHandler#0" />
+                <element signature="method#listChannels#0;class#ServerHandler#0" />
                 <element signature="method#getUserByRemoteAddress#0;class#ServerHandler#0" />
               </folding>
             </state>
@@ -39,10 +49,32 @@
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/sample/client/Utils.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="2201">
+              <caret line="165" column="23" selection-start-line="165" selection-start-column="23" selection-end-line="165" selection-end-column="23" />
+              <folding>
+                <element signature="e#6341#6342#0" expanded="true" />
+                <element signature="e#6393#6394#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/sample/client/ChatClientHandler.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="555">
+              <caret line="40" column="119" selection-start-line="40" selection-start-column="119" selection-end-line="40" selection-end-column="119" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/main/java/sample/client/ClientArea.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="156">
-              <caret line="53" column="33" lean-forward="true" selection-start-line="53" selection-start-column="33" selection-end-line="53" selection-end-column="33" />
+            <state relative-caret-position="333">
+              <caret line="254" column="5" lean-forward="true" selection-start-line="254" selection-start-column="5" selection-end-line="254" selection-end-column="5" />
               <folding>
                 <element signature="imports" expanded="true" />
                 <element signature="e#1783#6162#0" />
@@ -50,7 +82,6 @@
                 <element signature="e#6557#6695#0" />
                 <element signature="e#6783#8402#0" />
                 <element signature="e#8406#8725#0" />
-                <element signature="e#8729#9207#0" />
                 <element signature="e#9417#10714#0" expanded="true" />
                 <element signature="e#10713#10714#0" expanded="true" />
                 <element signature="e#10891#10993#0" expanded="true" />
@@ -81,6 +112,7 @@
       <find>start</find>
       <find>start-game</find>
       <find>clicked</find>
+      <find>collec</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -114,19 +146,19 @@
         <option value="$PROJECT_DIR$/src/main/java/sample/server/FigureClick.java" />
         <option value="$PROJECT_DIR$/src/main/java/sample/client/Generators.java" />
         <option value="$PROJECT_DIR$/src/main/java/sample/server/GameResult.java" />
-        <option value="$PROJECT_DIR$/src/main/java/sample/client/Utils.java" />
         <option value="$PROJECT_DIR$/src/main/java/sample/client/ChatClientHandler.java" />
         <option value="$PROJECT_DIR$/.gitignore" />
-        <option value="$PROJECT_DIR$/src/main/java/sample/client/ClientArea.java" />
         <option value="$PROJECT_DIR$/src/main/java/sample/server/ServerHandler.java" />
+        <option value="$PROJECT_DIR$/src/main/java/sample/client/Utils.java" />
+        <option value="$PROJECT_DIR$/src/main/java/sample/client/ClientArea.java" />
       </list>
     </option>
   </component>
   <component name="ProjectFrameBounds" extendedState="6">
-    <option name="x" value="2" />
-    <option name="y" value="136" />
-    <option name="width" value="1861" />
-    <option name="height" value="789" />
+    <option name="x" value="49" />
+    <option name="y" value="27" />
+    <option name="width" value="936" />
+    <option name="height" value="1053" />
   </component>
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectView">
@@ -201,7 +233,7 @@
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="android.sdk.path" value="$USER_HOME$/Android/Sdk" />
     <property name="aspect.path.notification.shown" value="true" />
-    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1557836788888" />
+    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1557847778812" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$/catch-the-figure.iml" />
     <property name="nodejs_interpreter_path.stuck_in_default_project" value="undefined stuck path" />
     <property name="nodejs_npm_path_reset_for_default_project" value="true" />
@@ -366,17 +398,18 @@
       <workItem from="1557610060807" duration="10134000" />
       <workItem from="1557623811164" duration="422000" />
       <workItem from="1557625294726" duration="134000" />
-      <workItem from="1557834617158" duration="2067000" />
+      <workItem from="1557834617158" duration="8406000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="66788000" />
+    <option name="totallyTimeSpent" value="73127000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="49" y="27" width="1871" height="1053" extended-state="6" />
+    <editor active="true" />
     <layout>
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.22356164" />
+      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.22356164" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Designer" order="2" />
       <window_info id="Image Layers" order="3" />
@@ -386,13 +419,13 @@
       <window_info id="Learn" order="7" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" weight="0.3293348" />
-      <window_info anchor="bottom" x="49" y="1117" width="1871" height="1043" id="Run" maximized="true" order="2" sideWeight="0.49972603" visible="true" weight="0.40239912" />
+      <window_info anchor="bottom" x="49" y="1117" width="1871" height="1043" id="Run" maximized="true" order="2" sideWeight="0.49972603" weight="0.40239912" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.3642312" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
       <window_info anchor="bottom" id="TODO" order="6" weight="0.3293348" />
       <window_info anchor="bottom" id="SBT Console" order="7" />
-      <window_info anchor="bottom" id="Terminal" order="8" weight="0.32752994" />
+      <window_info anchor="bottom" id="Terminal" order="8" weight="0.32715377" />
       <window_info anchor="bottom" id="Docker" order="9" />
       <window_info anchor="bottom" id="Event Log" order="10" sideWeight="0.50027394" side_tool="true" weight="0.3297062" />
       <window_info anchor="bottom" id="Database Changes" order="11" />
@@ -423,36 +456,6 @@
           <line>59</line>
           <properties />
           <option name="timeStamp" value="324" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/sample/client/Utils.java</url>
-          <line>50</line>
-          <properties />
-          <option name="timeStamp" value="325" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/sample/client/Utils.java</url>
-          <line>49</line>
-          <properties />
-          <option name="timeStamp" value="326" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/sample/client/Utils.java</url>
-          <line>48</line>
-          <properties />
-          <option name="timeStamp" value="327" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/sample/client/Utils.java</url>
-          <line>47</line>
-          <properties />
-          <option name="timeStamp" value="328" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/sample/client/Utils.java</url>
-          <line>46</line>
-          <properties />
-          <option name="timeStamp" value="329" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
@@ -507,13 +510,6 @@
     </expressions>
   </component>
   <component name="editorHistoryManager">
-    <entry file="jar://$MAVEN_REPOSITORY$/io/netty/netty-all/4.1.35.Final/netty-all-4.1.35.Final.jar!/io/netty/channel/ChannelInboundHandlerAdapter.class">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="90">
-          <caret line="9" column="13" selection-start-line="9" selection-start-column="13" selection-end-line="9" selection-end-column="13" />
-        </state>
-      </provider>
-    </entry>
     <entry file="jar://$MAVEN_REPOSITORY$/io/netty/netty-all/4.1.35.Final/netty-all-4.1.35.Final.jar!/io/netty/channel/ChannelHandler.class">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="90">
@@ -770,10 +766,49 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/sample/client/ChatClientHandler.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="555">
+          <caret line="40" column="119" selection-start-line="40" selection-start-column="119" selection-end-line="40" selection-end-column="119" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/sample/client/Utils.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="2201">
+          <caret line="165" column="23" selection-start-line="165" selection-start-column="23" selection-end-line="165" selection-end-column="23" />
+          <folding>
+            <element signature="e#6341#6342#0" expanded="true" />
+            <element signature="e#6393#6394#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/sample/server/ServerHandler.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="641">
+          <caret line="139" column="107" selection-start-line="139" selection-start-column="107" selection-end-line="139" selection-end-column="107" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="method#handlerAdded#0;class#ServerHandler#0" />
+            <element signature="method#handlerRemoved#0;class#ServerHandler#0" />
+            <element signature="method#collectResult#0;class#ServerHandler#0" />
+            <element signature="method#startGame#0;class#ServerHandler#0" />
+            <element signature="method#createShape#0;class#ServerHandler#0" />
+            <element signature="method#sendClickInfo#0;class#ServerHandler#0" />
+            <element signature="method#sendMessage#0;class#ServerHandler#0" />
+            <element signature="method#addUser#0;class#ServerHandler#0" />
+            <element signature="method#removeUser#0;class#ServerHandler#0" />
+            <element signature="method#listChannels#0;class#ServerHandler#0" />
+            <element signature="method#getUserByRemoteAddress#0;class#ServerHandler#0" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/sample/client/ClientArea.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="156">
-          <caret line="53" column="33" lean-forward="true" selection-start-line="53" selection-start-column="33" selection-end-line="53" selection-end-column="33" />
+        <state relative-caret-position="333">
+          <caret line="254" column="5" lean-forward="true" selection-start-line="254" selection-start-column="5" selection-end-line="254" selection-end-column="5" />
           <folding>
             <element signature="imports" expanded="true" />
             <element signature="e#1783#6162#0" />
@@ -781,22 +816,10 @@
             <element signature="e#6557#6695#0" />
             <element signature="e#6783#8402#0" />
             <element signature="e#8406#8725#0" />
-            <element signature="e#8729#9207#0" />
             <element signature="e#9417#10714#0" expanded="true" />
             <element signature="e#10713#10714#0" expanded="true" />
             <element signature="e#10891#10993#0" expanded="true" />
             <element signature="e#10992#10993#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/sample/server/ServerHandler.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="165">
-          <caret line="113" column="25" selection-start-line="113" selection-start-column="25" selection-end-line="113" selection-end-column="25" />
-          <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="method#getUserByRemoteAddress#0;class#ServerHandler#0" />
           </folding>
         </state>
       </provider>

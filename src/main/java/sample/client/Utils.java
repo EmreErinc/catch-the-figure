@@ -92,13 +92,13 @@ public class Utils {
 
   public static String parseMessage(String text) {
     if (text.contains("[MSG]")) {
-      return text.split(Pattern.quote("[MSG]"))[1].split(Pattern.quote("\r\n"))[0];
+      return text.split(Pattern.quote("[MSG] "))[1].split(Pattern.quote("\r\n"))[0];
     }
     return "EMPTY_MESSAGE";
   }
 
   public static String parseNick(String text) {
-    return text.split(Pattern.quote("[USR]"))[1].split(Pattern.quote("\r\n"))[0];
+    return text.split(Pattern.quote("[USR] "))[1].split(Pattern.quote("\r\n"))[0];
   }
 
   public static Long parseClickTime(String text) {
