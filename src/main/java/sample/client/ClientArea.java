@@ -19,8 +19,7 @@ import java.util.Timer;
  * Created by emre on 29.04.2019
  */
 public class ClientArea extends JFrame {
-  public static Vector<Figure> figures = new Vector<>();
-
+  // UI Components
   private JLabel lblConnect;
   private JButton btnConnect;
   private JLabel lblSendMsg;
@@ -43,31 +42,36 @@ public class ClientArea extends JFrame {
   private JLabel lblSquarePoint;
   private static JLabel lblTotalPoints;
 
-  public static GameArea gameArea;
+  private static GameArea gameArea;
   private int windowWidth = 700;
   private int windowHeight = 700;
   public static int[] pointsArray = new int[3];
-
   private int totalPoints = 0;
 
+  // Connection constraints
   private static final String host = "localhost";
   private static final int port = 8000;
   private static Channel channel;
   private EventLoopGroup group;
   private Bootstrap bootstrap;
 
-  private int count = 0;
+  // Figure generation variables
+  public static Vector<Figure> figures = new Vector<>();
+  private int figureCounts = 0;
   private boolean generate = false;
+
+  // Figure click variables
+  private List<Figure> clickedFigures = new ArrayList<>();
+  private Long createdAt = 0L;
+  private Long clickTime = 0L;
 
   public ClientArea() {
     initComponents();
   }
 
-  // create the GUI explicitly on the Swing event thread
+  // Create the GUI explicitly on the Swing event thread
   @SuppressWarnings("unchecked")
   private void initComponents() {
-    //ClientArea mainFrame = new ClientArea();
-
     lblConnect = new JLabel("Your Nick");
     txtNick = new JTextField();
     txtNick.setColumns(20);
@@ -123,9 +127,7 @@ public class ClientArea extends JFrame {
 
     setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
     setPreferredSize(new Dimension(windowWidth, windowHeight));
-    //setResizable(false);
 
-    //GridBagLayout gridBagLayout = new GridBagLayout();
     setLayout(new GridBagLayout());
     setTitle("...catch-the-figure...");
 
@@ -328,7 +330,7 @@ public class ClientArea extends JFrame {
         @Override
         public void run() {
           if (generate) {
-            Figure figure = Generators.generateOneShape(windowWidth, windowHeight);
+            Figure figure = Generators.generateOneShape(Integer.valueOf(txtSizeX.getText()), Integer.valueOf(txtSizeY.getText()));
             if (figure.type.equals(RectType.TRIANGLE)) {
               channel.writeAndFlush("[CMD] - CREATED " +
                   "| Type : <<" + figure.type + ">> " +
@@ -343,15 +345,15 @@ public class ClientArea extends JFrame {
                   "| FigureCreation : <<" + figure.createdAt + ">> \r\n");
             }
             figures.add(figure);
-            count++;
+            figureCounts += 1;
             repaint();
-            if (count == Integer.valueOf(txtShapeLimit.getText())) {
+            if (figureCounts == Integer.valueOf(txtShapeLimit.getText())) {
               timer.cancel();
             }
           }
         }
       };
-      timer.schedule(task, 0, Integer.valueOf(txtInterval.getText()) * 1000);
+      timer.schedule(task, 1000, Integer.valueOf(txtInterval.getText()) * 1000);
     }
 
     private void refresher() {
@@ -376,10 +378,6 @@ public class ClientArea extends JFrame {
         g2d.fill(figure.shape);
       }
     }
-
-    private List<Figure> clickedFigures = new ArrayList<>();
-    Long createdAt = 0L;
-    Long clickTime = 0L;
 
     private class MyMouseAdapter extends MouseAdapter {
       @Override
