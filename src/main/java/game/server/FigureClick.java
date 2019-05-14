@@ -1,10 +1,10 @@
-package sample.server;
-
+package game.server;
 
 import java.net.SocketAddress;
 
 /**
- * Created by emre on 11.05.2019
+ * Created by Emre Erinç
+ * Istanbul University - 13016150016
  */
 public class FigureClick {
   String rectCreatedAt;

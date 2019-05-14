@@ -1,4 +1,4 @@
-package sample.client;
+package game.client;
 
 import java.awt.*;
 import java.awt.geom.Ellipse2D;
@@ -8,7 +8,8 @@ import java.util.List;
 import java.util.Random;
 
 /**
- * Created by emre on 04.05.2019
+ * Created by Emre Erinç
+ * Istanbul University - 13016150016
  */
 public class Generators {
   //generate triangle
@@ -54,7 +55,7 @@ public class Generators {
   public static Integer generatePoint() {
     Random random = new Random();
     int point = random.nextInt(10);
-    if (point == 0){
+    if (point == 0) {
       return generatePoint();
     }
     return (random.nextInt(2) == 1) ? (0 - point) : point;

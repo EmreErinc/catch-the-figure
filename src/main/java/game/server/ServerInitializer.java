@@ -1,4 +1,4 @@
-package sample.server;
+package game.server;
 
 import io.netty.channel.ChannelInitializer;
 import io.netty.channel.ChannelPipeline;
@@ -7,7 +7,8 @@ import io.netty.handler.codec.string.StringDecoder;
 import io.netty.handler.codec.string.StringEncoder;
 
 /**
- * Created by emre on 28.04.2019
+ * Created by Emre Erinç
+ * Istanbul University - 13016150016
  */
 public class ServerInitializer extends ChannelInitializer<SocketChannel> {
   @Override

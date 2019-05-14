@@ -1,4 +1,4 @@
-package sample.client;
+package game.client;
 
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
@@ -6,7 +6,8 @@ import io.netty.channel.SimpleChannelInboundHandler;
 import java.util.regex.Pattern;
 
 /**
- * Created by emre on 28.04.2019
+ * Created by Emre Erinç
+ * Istanbul University - 13016150016
  */
 public class ChatClientHandler extends SimpleChannelInboundHandler<String> {
   private boolean dedicated = false;

@@ -1,4 +1,4 @@
-Istanbul University                                                            Emre Erinç
+Istanbul University                                               Emre Erinç - 1306150016
 Computer Engineering                                                             May 2019
 Lesson: Ağ Programlama
 Project: Catch The Figure
@@ -54,7 +54,7 @@ Table of Contents
                        |            |
                   |---------|  |---------|
                   | message |  | CREATED |                                                                                                      
-                  |---------|  |---------|                                                                                                                                                     
+                  |---------|  |---------|                                                                                                                                                                                       
                        |            |                                                                  
                        |            |                                                                    
                        |            |                                                                 
@@ -72,26 +72,26 @@ Emre Erinç                           Catch The Figure  				  [Page 1]
 3. State Descriptions
 
 3.1. USR
+
 	Accept any user want to connect to server with nick name. If user the first member 
 	to connect to server, server assign him/her as a HOST. Other members assign as a 
 	SUBSCRIBER.
 	
-	Participant Message :
+	Participant Message : Member who want to join lobby, should enter their nick
 		"[USR] – nick"
 
-	Server Message (to joined member) :
+	Server Message : When any member join the lobby, see this welcome message
 		"[SYS] - " + "WELCOME TO LOBBY!\r\n" +
     		"[SYS] - " + "YOUR INFO : ip:port\r\n" +
     		"[SYS] - Server Time : serverTime\r\n" +
     		"[SYS] - Client Role : <<HOST>> or <<SUBSCRIBER>> \r\n"
 
-	Server Message (to all participants) :
+	Server Message : If any member join the lobby, other members views this message
 		"[SYS] - A new user has joined\n"
 
-	Server Message (when disconnect member) :
+	Server Message : If any member disconnect from server, other member views this 	
+	message.
 		"[SYS] - <<nick>> has left\n"
-
-
 
 
 
@@ -139,20 +139,20 @@ Emre Erinç                           Catch The Figure  				  [Page 2]
                                      Catch The Figure  				  May 2019
 
 3.2. MSG
+
 	Communication messages between members.
 
-	Participant Message :
+	Participant Message : Want to send message
 		"[MSG] message\r\n"
 
-	Server Message :
+	Server Message : Lobby members take messages and shows to client GUI
 		"[MSG] - <<sender>> message\n"
 
 	If any member want learn how many member at lobby, message need to contain "-ls" 	
 	parameter.  
 	
-	Server Message :
+	Server Message : Only message sender views result userList
 		"Connected User List : userList\n"
-
 
 
 
@@ -212,14 +212,14 @@ Emre Erinç                           Catch The Figure  				  [Page 3]
 CREATED : Give figure creation info from host user and send this information to all 	
 	participants.
 
-	Host Message :
+	Host Message : Host client app generate a figure and send to server
 		"[CMD] - CREATED " +
     		"| Type : <<figureType>> " +
     		"| Color : <<figureColor>> " +
     		"| Bounds : <<"figureBounds>> " +
     		"| FigureCreation : <<figureCreatedAt>> \r\n"
 
-	Participant Message From Server :
+	Server Message : Client app generates created figure except for host
 		"[SYS] - <<host>> CREATED " +
     		"| Type : <<figureType>> " +
     		"| Color : <<figureColor>> " +
@@ -228,7 +228,7 @@ CREATED : Give figure creation info from host user and send this information to 
 
 START : Take game start command from host user and send to all participants.
 
-	Host Message :
+	Host Message : Host sends a start game request 
 		"[CMD] - START " +
     		"| Interval : <<figureCreationInterval>> " +
     		"| X : <<windowHeigth>> " +
@@ -236,7 +236,7 @@ START : Take game start command from host user and send to all participants.
     		"| FigureCount : <<figureCount>> " +
     		"| Points : <<figurePoints>>\r\n"
 
-	Participant Message From Server :
+	Server Message : Client app starts game with given parameters
 		"[SYS] - <<host>> STARTED " +
     		"| Interval : <<figureCreationInterval>> " +
     		"| X : <<windowHeigth>> " +
@@ -247,12 +247,12 @@ START : Take game start command from host user and send to all participants.
 CLICKED : Give figure click info from any user and send this information to all 	
 	participants.
 
-	User Message :
+	User Message : Send any figure click to server
 		"[CMD] - CLICKED " +
     		"| Time : <<clickTime>> " +
     		"| FigureCreation : <<figureCreatedAt>> \r\n"
 
-	Participant Message From Server (Accept – to all participants) :
+	Participant Message From Server : Clicked figure removes from all members
 		"[SYS] - <<sender>> CLICKED " +
 		"| Time : <<clickTime>> " +
     		"| FigureCreation : <<figureCreatedAt>> \r\n"
@@ -277,19 +277,19 @@ Emre Erinç                           Catch The Figure  				  [Page 4]
                                      Catch The Figure  				  May 2019
 
 3.4. SYS
+
 	This states includes all server based messages.
 
 
 
 
 3.5. LOG
+
 	This is not exactly state. Just for logging any transaction for serverside.
 
 	Server Log :
 		"[LOG] - <<incomingMessageAddress>> " +
 		" all other below messages \r\n"
-
-
 
 
 

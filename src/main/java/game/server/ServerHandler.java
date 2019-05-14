@@ -1,14 +1,14 @@
-package sample.server;
+package game.server;
 
+import game.client.Client;
+import game.client.RectType;
+import game.client.Utils;
 import io.netty.channel.Channel;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
 import io.netty.channel.group.ChannelGroup;
 import io.netty.channel.group.DefaultChannelGroup;
 import io.netty.util.concurrent.DefaultEventExecutor;
-import sample.client.Client;
-import sample.client.RectType;
-import sample.client.Utils;
 
 import java.net.SocketAddress;
 import java.time.Instant;
@@ -19,7 +19,8 @@ import java.util.List;
 import static jdk.nashorn.internal.runtime.regexp.joni.Config.log;
 
 /**
- * Created by emre on 28.04.2019
+ * Created by Emre Erinç
+ * Istanbul University - 13016150016
  */
 public class ServerHandler extends SimpleChannelInboundHandler<String> {
   private static final ChannelGroup CHANNELS = new DefaultChannelGroup(new DefaultEventExecutor());

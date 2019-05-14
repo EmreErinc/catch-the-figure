@@ -1,9 +1,10 @@
-package sample.client;
+package game.client;
 
 import io.netty.channel.Channel;
 
 /**
- * Created by emre on 28.04.2019
+ * Created by Emre Erinç
+ * Istanbul University - 13016150016
  */
 public class Client {
   private Long id;

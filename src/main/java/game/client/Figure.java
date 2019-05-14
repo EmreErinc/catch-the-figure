@@ -1,9 +1,10 @@
-package sample.client;
+package game.client;
 
 import java.awt.*;
 
 /**
- * Created by emre on 02.05.2019
+ * Created by Emre Erinç
+ * Istanbul University - 13016150016
  */
 public class Figure {
   Shape shape;

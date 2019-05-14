@@ -1,4 +1,4 @@
-package sample.client;
+package game.client;
 
 import io.netty.bootstrap.Bootstrap;
 import io.netty.channel.*;
@@ -16,7 +16,8 @@ import java.util.List;
 import java.util.Timer;
 
 /**
- * Created by emre on 29.04.2019
+ * Created by Emre Erinç
+ * Istanbul University - 13016150016
  */
 public class ClientArea extends JFrame {
   // UI Components

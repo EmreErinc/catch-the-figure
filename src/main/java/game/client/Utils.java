@@ -1,11 +1,12 @@
-package sample.client;
+package game.client;
 
 import java.awt.*;
 import java.awt.geom.Ellipse2D;
 import java.util.regex.Pattern;
 
 /**
- * Created by emre on 07.05.2019
+ * Created by Emre Erinç
+ * Istanbul University - 13016150016
  */
 public class Utils {
   public static RectType parseRectType(String text) {
